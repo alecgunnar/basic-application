@@ -1,9 +1,16 @@
+parameters:
+  framework.router.routes_config_path: '%config_path%/routes.yml'
+
 services:
   framework.router.route.collection:
     class: Framework\Router\Route\Collection
-    configurator: ['@framework.router.route.collection.configurator', 'loadRoutes']
+    configurator: ['@framework.router.route.collection.configurator', 'configure']
 
   framework.router.route.collection.configurator:
     class: Framework\Router\Route\Collection\Configurator
     arguments:
-      - '%config_dir%'
+      - @framework.router.route.loader.yaml_loader
+      - '%framework.router.routes_config_path%'
+
+  framework.route.route.loader.yaml_loader:
+    class: Framework\Router\Route\Loader\YamlLoader

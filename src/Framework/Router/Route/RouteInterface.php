@@ -5,6 +5,13 @@ namespace Framework\Router\Route;
 interface RouteInterface
 {
     /**
+     * Returns the methods associated with this route
+     *
+     * @return string
+     */
+    public function getMethods(): string;
+
+    /**
      * Returns the path associated with the route
      *
      * @return string

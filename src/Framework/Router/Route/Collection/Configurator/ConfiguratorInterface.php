@@ -7,9 +7,9 @@ use Framework\Router\Route\Collection\CollectionInterface;
 interface ConfiguratorInterface
 {
     /**
-     * Loads routes into the given route collection
+     * Configures the collection with the routes
      *
      * @param CollectionInterface $collection
      */
-    public function loadRoutes(CollectionInterface $collection);
+    public function configure(CollectionInterface $collection);
 }

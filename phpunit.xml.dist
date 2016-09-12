@@ -8,21 +8,21 @@
          
     <testsuites>
         <testsuite name="Application Tests">
-            <directory>./test/Application/</directory>
+            <directory>./test/src/Application</directory>
         </testsuite>
         <testsuite name="Framework Tests">
-            <directory>./test/Framework/</directory>
+            <directory>./test/src/Framework</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>./src/</directory>
+            <directory>./src</directory>
         </whitelist>
     </filter>
 
     <logging>
-        <log type="coverage-html" target="./coverage/html" />
+        <log type="coverage-html" target="./test/coverage/html" />
     </logging>
 
 </phpunit>

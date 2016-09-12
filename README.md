@@ -1,0 +1,3 @@
+# Basic Project
+
+A simple template to get started with...

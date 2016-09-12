@@ -1,0 +1,9 @@
+services:
+  framework.router.route.collection:
+    class: Framework\Router\Route\Collection
+    configurator: ['@framework.router.route.collection.configurator', 'loadRoutes']
+
+  framework.router.route.collection.configurator:
+    class: Framework\Router\Route\Collection\Configurator
+    arguments:
+      - '%config_dir%'

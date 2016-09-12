@@ -1,0 +1,3 @@
+welcome:
+  path: /
+  call: @controller.welcome

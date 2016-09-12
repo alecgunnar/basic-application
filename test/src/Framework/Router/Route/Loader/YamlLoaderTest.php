@@ -50,11 +50,11 @@ class YamlLoaderTest extends PHPUnit_Framework_TestCase
 
         $config = <<<YAML
 - name: $name
+  via: $methods
   path: $path
-  methods: $methods
-  callable: test
-  middleware:
-    - test
+  call: $service
+  stack:
+    - $service
 YAML;
 
         $root = vfsStream::setup();
@@ -79,6 +79,54 @@ YAML;
 
         $routes = $instance->loadRoutes($file->url(), $collection);
     }
+
+//     public function testLoadRoutesBuildsGroupedRoutesFromConfig()
+//     {
+//         $name = 'route.name';
+//         $methods = 'GET';
+//         $prefix = '/prefix';
+//         $path = '/welcome';
+//         $serviceA = 'security';
+//         $serviceB = 'test';
+//         $callableA = function () { };
+//         $callableB = function () { };
+//         $middleware = [$callableA, $callableB];
+
+//         $config = <<<YAML
+// - path: $prefix
+//   stack:
+//     - $serviceA
+//   group:
+//     - name: $name
+//       path: $path
+//       via: $methods
+//       call: $serviceB
+//       stack:
+//         - $serviceB
+// YAML;
+
+//         $root = vfsStream::setup();
+//         $file = vfsStream::newFile('routes.yml')
+//             ->withContent($config)
+//             ->at($root);
+
+//         $route = new Route($methods, $prefix . $path, $callableA, $middleware);
+
+//         $collection = $this->getMockCollection();
+//         $collection->expects($this->once())
+//             ->method('withRoute')
+//             ->with($name, $route);
+
+//         $factory = $this->getMockFactory();
+//         $factory->expects($this->once())
+//             ->method('buildRoute')
+//             ->with($methods, $path, $serviceB, [$serviceA, $serviceB])
+//             ->willReturn($route);
+
+//         $instance = $this->getInstance($factory);
+
+//         $routes = $instance->loadRoutes($file->url(), $collection);
+//     }
 
     public function getMockFactory()
     {

@@ -39,12 +39,7 @@ class YamlLoader implements LoaderInterface
         }
 
         $routes = $this->parseFile($file);
-
-        foreach ($routes as $route) {
-            call_user_func_array(
-                [$collection, 'withRoute'], $this->parseRoute($route)
-            );
-        }
+        $this->parseRoutes($routes, $collection);
     }
 
     protected function parseFile($file)
@@ -58,16 +53,27 @@ class YamlLoader implements LoaderInterface
         }
     }
 
-    protected function parseRoute($route)
+    protected function parseRoutes($routes, $collection)
     {
-        return [
+        foreach ($routes as $route) {
+            $this->parseRoute($route, $collection);
+        }
+    }
+
+    protected function parseRoute($route, $collection)
+    {
+        if (isset($route['group'])) {
+            return $this->parseRoutes($route['group'], $collection);
+        }
+
+        $collection->withRoute(
             $route['name'],
             $this->factory->buildRoute(
-                $route['methods'],
+                $route['via'],
                 $route['path'],
-                $route['callable'],
-                $route['middleware']
+                $route['call'],
+                $route['stack']
             )
-        ];
+        );
     }
 }

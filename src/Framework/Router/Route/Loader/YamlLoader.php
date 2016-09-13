@@ -5,6 +5,7 @@ namespace Framework\Router\Route\Loader;
 use Framework\Router\Route\Factory\ContainerAwareFactoryInterface;
 use Framework\Router\Route\Collection\CollectionInterface;
 use InvalidArgumentException;
+use Exception;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
@@ -24,6 +25,16 @@ class YamlLoader implements LoaderInterface
      * @var string
      */
     const NOT_VALID_YAML_EXCEPTION = 'The route configuration file "%s" does not contain valid YAML. The error was: %s';
+
+    /**
+     * @var string
+     */
+    const MISSING_ATTRIBUTE_EXCEPTION = 'All routes must have a "%s" attribute. Please check your configuration.';
+
+    /**
+     * @var string
+     */
+    const DEFAULT_VIA = 'GET';
 
     public function __construct(ContainerAwareFactoryInterface $factory)
     {
@@ -53,31 +64,74 @@ class YamlLoader implements LoaderInterface
         }
     }
 
-    protected function parseRoutes(array $routes, CollectionInterface $collection, array $stack = [])
-    {
+    protected function parseRoutes(
+        array $routes,
+        CollectionInterface $collection,
+        string $prefix = '',
+        array $stack = []
+    ) {
         foreach ($routes as $route) {
-            $this->parseRoute($route, $collection, $stack);
+            if (isset($route['group'])) {
+                $this->parseRoutes(
+                    $route['group'],
+                    $collection,
+                    $this->cleanRoutePath($route['path']),
+                    $route['stack']
+                );
+
+                continue;
+            }
+
+            $this->parseRoute($route, $collection, $prefix, $stack);
         }
     }
 
-    protected function parseRoute(array $route, CollectionInterface $collection, array $stack = [])
-    {
-        if (isset($route['group'])) {
-            return $this->parseRoutes($route['group'], $collection, $route['stack']);
-        }
+    protected function parseRoute(
+        array $route,
+        CollectionInterface $collection,
+        string $prefix = '',
+        array $stack = []
+    ) {
+        $route = $this->validateRoute($route);
 
         $collection->withRoute(
             $route['name'],
             $this->factory->buildRoute(
                 $route['via'],
-                $route['path'],
+                $this->cleanRoutePath($route['path'], $prefix),
                 $route['call'],
                 $this->mergeMiddlewareStacks($stack, $route['stack'])
             )
         );
     }
 
-    protected function mergeMiddlewareStacks(array $first, array $second)
+    protected function validateRoute(array $route): array
+    {
+        $this->checkForAttribute($route, 'path');
+        $this->checkForAttribute($route, 'call');
+
+        $route['via'] = $route['via'] ?? self::DEFAULT_VIA;
+        $route['name'] = $route['name'] ?? md5($route['path'] . $route['via']);
+        $route['stack'] = $route['stack'] ?? [];
+
+        return $route;
+    }
+
+    protected function checkForAttribute(array $values, string $attr)
+    {
+        if (!isset($values[$attr])) {
+            throw new Exception(
+                sprintf(self::MISSING_ATTRIBUTE_EXCEPTION, $attr)
+            );
+        }
+    }
+
+    protected function cleanRoutePath(string $path, string $prefix = ''): string
+    {
+        return $prefix . '/' . trim($path, '/');
+    }
+
+    protected function mergeMiddlewareStacks(array $first, array $second): array
     {
         return array_unique(
             array_merge($first, $second)

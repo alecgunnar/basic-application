@@ -162,7 +162,7 @@ YAML;
         $factory = $this->getMockFactory();
         $factory->expects($this->once())
             ->method('buildRoute')
-            ->with($methods, $path, $serviceB, [$serviceA, $serviceB])
+            ->with($methods, $prefix . $path, $serviceB, [$serviceA, $serviceB])
             ->willReturn($route);
 
         $instance = $this->getInstance($factory);
@@ -211,10 +211,261 @@ YAML;
         $factory = $this->getMockFactory();
         $factory->expects($this->once())
             ->method('buildRoute')
-            ->with($methods, $path, $serviceB, [$serviceA, $serviceB])
+            ->with($methods, $prefix . $path, $serviceB, [$serviceA, $serviceB])
             ->willReturn($route);
 
         $instance = $this->getInstance($factory);
+
+        $routes = $instance->loadRoutes($file->url(), $collection);
+    }
+
+    public function testLoadRoutesNeatensUpThePath()
+    {
+        $name = 'route.name';
+        $methods = 'GET';
+        $badPath = 'welcome/';
+        $goodPath = '/welcome';
+        $service = 'test';
+        $callable = function () { };
+        $middleware = [function () { }];
+
+        $config = <<<YAML
+- name: $name
+  via: $methods
+  path: $badPath
+  call: $service
+  stack:
+    - $service
+YAML;
+
+        $root = vfsStream::setup();
+        $file = vfsStream::newFile('routes.yml')
+            ->withContent($config)
+            ->at($root);
+
+        $route = new Route($methods, $goodPath, $callable, $middleware);
+
+        $collection = $this->getMockCollection();
+        $collection->expects($this->once())
+            ->method('withRoute')
+            ->with($name, $route);
+
+        $factory = $this->getMockFactory();
+        $factory->expects($this->once())
+            ->method('buildRoute')
+            ->with($methods, $goodPath, $service, [$service])
+            ->willReturn($route);
+
+        $instance = $this->getInstance($factory);
+
+        $routes = $instance->loadRoutes($file->url(), $collection);
+    }
+
+    public function testLoadRoutesBuildsGroupedRoutesAndNeatensUpPath()
+    {
+        $name = 'route.name';
+        $methods = 'GET';
+        $badPrefix = 'prefix/';
+        $goodPrefix = '/prefix';
+        $badPath = 'welcome/';
+        $goodPath = '/welcome';
+        $serviceA = 'security';
+        $serviceB = 'test';
+        $callableA = function () { };
+        $callableB = function () { };
+        $middleware = [$callableA, $callableB];
+
+        $config = <<<YAML
+- path: $badPrefix
+  stack:
+    - $serviceA
+    - $serviceB
+  group:
+    - name: $name
+      path: $badPath
+      via: $methods
+      call: $serviceB
+      stack:
+        - $serviceB
+YAML;
+
+        $root = vfsStream::setup();
+        $file = vfsStream::newFile('routes.yml')
+            ->withContent($config)
+            ->at($root);
+
+        $route = new Route($methods, $goodPrefix . $goodPath, $callableA, $middleware);
+
+        $collection = $this->getMockCollection();
+        $collection->expects($this->once())
+            ->method('withRoute')
+            ->with($name, $route);
+
+        $factory = $this->getMockFactory();
+        $factory->expects($this->once())
+            ->method('buildRoute')
+            ->with($methods, $goodPrefix . $goodPath, $serviceB, [$serviceA, $serviceB])
+            ->willReturn($route);
+
+        $instance = $this->getInstance($factory);
+
+        $routes = $instance->loadRoutes($file->url(), $collection);
+    }
+
+    public function testLoadRoutesBuildsRouteFromConfigAndDefaultsViaToGet()
+    {
+        $name = 'route.name';
+        $methods = 'GET';
+        $path = '/welcome';
+        $service = 'test';
+        $callable = function () { };
+
+        $config = <<<YAML
+- name: $name
+  path: $path
+  call: $service
+YAML;
+
+        $root = vfsStream::setup();
+        $file = vfsStream::newFile('routes.yml')
+            ->withContent($config)
+            ->at($root);
+
+        $route = new Route($methods, $path, $callable);
+
+        $collection = $this->getMockCollection();
+        $collection->expects($this->once())
+            ->method('withRoute')
+            ->with($name, $route);
+
+        $factory = $this->getMockFactory();
+        $factory->expects($this->once())
+            ->method('buildRoute')
+            ->with($methods, $path, $service)
+            ->willReturn($route);
+
+        $instance = $this->getInstance($factory);
+
+        $routes = $instance->loadRoutes($file->url(), $collection);
+    }
+
+    public function testLoadRoutesBuildsRouteFromConfigAndDefaultsNameToMd5OfPathAndVia()
+    {
+        $methods = 'GET';
+        $path = '/welcome';
+        $name = md5($path . $methods);
+        $service = 'test';
+        $callable = function () { };
+
+        $config = <<<YAML
+- path: $path
+  via: $methods
+  call: $service
+YAML;
+
+        $root = vfsStream::setup();
+        $file = vfsStream::newFile('routes.yml')
+            ->withContent($config)
+            ->at($root);
+
+        $route = new Route($methods, $path, $callable);
+
+        $collection = $this->getMockCollection();
+        $collection->expects($this->once())
+            ->method('withRoute')
+            ->with($name, $route);
+
+        $factory = $this->getMockFactory();
+        $factory->expects($this->once())
+            ->method('buildRoute')
+            ->with($methods, $path, $service)
+            ->willReturn($route);
+
+        $instance = $this->getInstance($factory);
+
+        $routes = $instance->loadRoutes($file->url(), $collection);
+    }
+
+    public function testLoadRoutesBuildsRouteFromConfigAndDefaultsStackToEmptyArray()
+    {
+        $name = 'route.name';
+        $methods = 'GET';
+        $path = '/welcome';
+        $service = 'test';
+        $callable = function () { };
+
+        $config = <<<YAML
+- name: $name
+  path: $path
+  via: $methods
+  call: $service
+YAML;
+
+        $root = vfsStream::setup();
+        $file = vfsStream::newFile('routes.yml')
+            ->withContent($config)
+            ->at($root);
+
+        $route = new Route($methods, $path, $callable);
+
+        $collection = $this->getMockCollection();
+        $collection->expects($this->once())
+            ->method('withRoute')
+            ->with($name, $route);
+
+        $factory = $this->getMockFactory();
+        $factory->expects($this->once())
+            ->method('buildRoute')
+            ->with($methods, $path, $service, [])
+            ->willReturn($route);
+
+        $instance = $this->getInstance($factory);
+
+        $routes = $instance->loadRoutes($file->url(), $collection);
+    }
+
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage All routes must have a "path" attribute. Please check your configuration.
+     */
+    public function testLoadRoutesThrowsExceptionIfPathNotProvided()
+    {
+        $config = <<<YAML
+- call: service
+  via: GET
+YAML;
+
+        $root = vfsStream::setup();
+        $file = vfsStream::newFile('routes.yml')
+            ->withContent($config)
+            ->at($root);
+
+        $collection = $this->getMockCollection();
+
+        $instance = $this->getInstance();
+
+        $routes = $instance->loadRoutes($file->url(), $collection);
+    }
+
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage All routes must have a "call" attribute. Please check your configuration.
+     */
+    public function testLoadRoutesThrowsExceptionIfCallNotProvided()
+    {
+        $config = <<<YAML
+- path: /
+  via: GET
+YAML;
+
+        $root = vfsStream::setup();
+        $file = vfsStream::newFile('routes.yml')
+            ->withContent($config)
+            ->at($root);
+
+        $collection = $this->getMockCollection();
+
+        $instance = $this->getInstance();
 
         $routes = $instance->loadRoutes($file->url(), $collection);
     }

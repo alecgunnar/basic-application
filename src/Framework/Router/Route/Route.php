@@ -7,7 +7,7 @@ use InvalidArgumentException;
 class Route implements RouteInterface
 {
     /**
-     * @var string
+     * @var string[]
      */
     protected $methods;
 
@@ -28,13 +28,13 @@ class Route implements RouteInterface
 
     /**
      * @throws InvalidArgumentException
-     * @param string $methods
+     * @param string[] $methods
      * @param string $path
      * @param callable $callable
      * @param callable[] $middleware = []
      */
     public function __construct(
-        string $methods,
+        array $methods,
         string $path,
         callable $callable,
         array $middleware = []
@@ -47,7 +47,7 @@ class Route implements RouteInterface
         $this->verifyMiddlware();
     }
 
-    public function getMethods(): string
+    public function getMethods(): array
     {
         return $this->methods;
     }

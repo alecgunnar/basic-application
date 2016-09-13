@@ -8,7 +8,7 @@ class RouteTest extends PHPUnit_Framework_TestCase
 {
     public function testGetMethodReturnsMethod()
     {
-        $given = $expected = 'GET';
+        $given = $expected = ['GET'];
 
         $instance = new Route($given, '/path', function () { });
 
@@ -19,7 +19,7 @@ class RouteTest extends PHPUnit_Framework_TestCase
     {
         $given = $expected = '/path';
 
-        $instance = new Route('GET', $given, function () { });
+        $instance = new Route(['GET'], $given, function () { });
 
         $this->assertEquals($expected, $instance->getPath());
     }
@@ -28,7 +28,7 @@ class RouteTest extends PHPUnit_Framework_TestCase
     {
         $given = $expected = function () { };
 
-        $instance = new Route('GET', '/', $given);
+        $instance = new Route(['GET'], '/', $given);
 
         $this->assertEquals($expected, $instance->getCallable());
     }
@@ -40,7 +40,7 @@ class RouteTest extends PHPUnit_Framework_TestCase
             function () { }
         ];
 
-        $instance = new Route('GET', '/', function () { }, $given);
+        $instance = new Route(['GET'], '/', function () { }, $given);
 
         $this->assertEquals($expected, $instance->getMiddleware());
     }
@@ -56,6 +56,6 @@ class RouteTest extends PHPUnit_Framework_TestCase
             function () { }
         ];
 
-        $instance = new Route('GET', '/', function () { }, $given);
+        $instance = new Route(['GET'], '/', function () { }, $given);
     }
 }

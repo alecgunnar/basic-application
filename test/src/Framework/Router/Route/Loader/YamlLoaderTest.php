@@ -62,7 +62,7 @@ YAML;
             ->withContent($config)
             ->at($root);
 
-        $route = new Route($methods, $path, $callable, $middleware);
+        $route = new Route([$methods], $path, $callable, $middleware);
 
         $collection = $this->getMockCollection();
         $collection->expects($this->once())
@@ -104,7 +104,7 @@ YAML;
             ->withContent($config)
             ->at($root);
 
-        $route = new Route($methods, $path, $callable, $middleware);
+        $route = new Route([$methods], $path, $callable, $middleware);
 
         $collection = $this->getMockCollection();
         $collection->expects($this->once())
@@ -152,7 +152,7 @@ YAML;
             ->withContent($config)
             ->at($root);
 
-        $route = new Route($methods, $prefix . $path, $callableA, $middleware);
+        $route = new Route([$methods], $prefix . $path, $callableA, $middleware);
 
         $collection = $this->getMockCollection();
         $collection->expects($this->once())
@@ -201,7 +201,7 @@ YAML;
             ->withContent($config)
             ->at($root);
 
-        $route = new Route($methods, $prefix . $path, $callableA, $middleware);
+        $route = new Route([$methods], $prefix . $path, $callableA, $middleware);
 
         $collection = $this->getMockCollection();
         $collection->expects($this->once())
@@ -243,7 +243,7 @@ YAML;
             ->withContent($config)
             ->at($root);
 
-        $route = new Route($methods, $goodPath, $callable, $middleware);
+        $route = new Route([$methods], $goodPath, $callable, $middleware);
 
         $collection = $this->getMockCollection();
         $collection->expects($this->once())
@@ -294,7 +294,7 @@ YAML;
             ->withContent($config)
             ->at($root);
 
-        $route = new Route($methods, $goodPrefix . $goodPath, $callableA, $middleware);
+        $route = new Route([$methods], $goodPrefix . $goodPath, $callableA, $middleware);
 
         $collection = $this->getMockCollection();
         $collection->expects($this->once())
@@ -331,7 +331,7 @@ YAML;
             ->withContent($config)
             ->at($root);
 
-        $route = new Route($methods, $path, $callable);
+        $route = new Route([$methods], $path, $callable);
 
         $collection = $this->getMockCollection();
         $collection->expects($this->once())
@@ -368,7 +368,7 @@ YAML;
             ->withContent($config)
             ->at($root);
 
-        $route = new Route($methods, $path, $callable);
+        $route = new Route([$methods], $path, $callable);
 
         $collection = $this->getMockCollection();
         $collection->expects($this->once())
@@ -406,7 +406,7 @@ YAML;
             ->withContent($config)
             ->at($root);
 
-        $route = new Route($methods, $path, $callable);
+        $route = new Route([$methods], $path, $callable);
 
         $collection = $this->getMockCollection();
         $collection->expects($this->once())

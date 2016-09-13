@@ -22,13 +22,17 @@ class ContainerAwareFactory implements ContainerAwareFactoryInterface
     }
 
     public function buildRoute(
-        string $methods,
+        $methods,
         string $path,
         $callable,
         array $middleware = []
     ): RouteInterface {
         $callable = $this->loadCallable($callable);
         $middleware = array_map([$this, 'loadCallable'], $middleware);
+
+        if (!is_array($methods)) {
+            $methods = [$methods];
+        }
 
         return new Route($methods, $path, $callable, $middleware);
     }

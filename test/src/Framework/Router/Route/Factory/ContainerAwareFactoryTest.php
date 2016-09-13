@@ -15,7 +15,7 @@ class ContainerAwareFactoryTest extends PHPUnit_Framework_TestCase
         $service = 'service.name';
         $callable  = function () { };
 
-        $expected = new Route($method, $path, $callable);
+        $expected = new Route([$method], $path, $callable);
 
         $container = $this->getMockContainer();
 
@@ -36,7 +36,7 @@ class ContainerAwareFactoryTest extends PHPUnit_Framework_TestCase
         $path = '/hello-world';
         $callable  = function () { };
 
-        $expected = new Route($method, $path, $callable);
+        $expected = new Route([$method], $path, $callable);
 
         $container = $this->getMockContainer();
 
@@ -58,7 +58,7 @@ class ContainerAwareFactoryTest extends PHPUnit_Framework_TestCase
         $service = 'middleware.service';
         $middleware = function () { };
 
-        $expected = new Route($method, $path, $callable, [
+        $expected = new Route([$method], $path, $callable, [
             $middleware
         ]);
 
@@ -86,7 +86,7 @@ class ContainerAwareFactoryTest extends PHPUnit_Framework_TestCase
         $service = 'middleware.service';
         $middleware = function () { };
 
-        $expected = new Route($method, $path, $callable, [
+        $expected = new Route([$method], $path, $callable, [
             $middleware, $middleware
         ]);
 

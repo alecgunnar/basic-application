@@ -7,9 +7,9 @@ interface RouteInterface
     /**
      * Returns the methods associated with this route
      *
-     * @return string
+     * @return array
      */
-    public function getMethods(): string;
+    public function getMethods(): array;
 
     /**
      * Returns the path associated with the route

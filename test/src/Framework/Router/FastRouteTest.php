@@ -125,6 +125,24 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($methods, $instance->getAllowedMethods());
     }
 
+    public function testNotFoundIsReturnedByDefault()
+    {
+        $method = 'GET';
+        $uri = 'http://world.com/hello/world';
+
+        $dispatcher = $this->getMockDispatcher();
+        $dispatcher->expects($this->once())
+                ->method('dispatch')
+                ->with($method, $uri)
+                ->willReturn([4]);
+
+        $request = $this->getMockRequest($method, $uri);
+
+        $instance = new FastRoute($dispatcher);
+
+        $this->assertEquals(RouterInterface::STATUS_NOT_FOUND, $instance->processRequest($request));
+    }
+
     protected function getMockDispatcher()
     {
         return $this->getMockBuilder(Dispatcher::class)

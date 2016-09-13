@@ -51,7 +51,7 @@ class FastRoute implements RouterInterface
             case Dispatcher::METHOD_NOT_ALLOWED:
                 $this->allowed = $ret[1];
                 return RouterInterface::STATUS_NOT_ALLOWED;
-            case Dispatcher::NOT_FOUND:
+            default:
                 return RouterInterface::STATUS_NOT_FOUND;
         }
     }

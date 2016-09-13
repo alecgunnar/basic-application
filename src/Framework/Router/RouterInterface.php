@@ -37,4 +37,18 @@ interface RouterInterface
      * @return RouteInterface
      */
     public function getRoute(): RouteInterface;
+
+    /**
+     * Get the methods allowed by the matched route
+     *
+     * @return string[]
+     */
+    public function getAllowedMethods(): array;
+
+    /**
+     * Get the variables pulled from the URI
+     *
+     * @return string[]
+     */
+    public function getUriVars(): array;
 }

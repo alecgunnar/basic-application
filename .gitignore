@@ -1,5 +1,6 @@
 vendor/
 test/coverage/
+cache/
 
 phpunit.xml
 composer.lock

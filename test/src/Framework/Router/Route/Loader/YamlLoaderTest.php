@@ -80,53 +80,144 @@ YAML;
         $routes = $instance->loadRoutes($file->url(), $collection);
     }
 
-//     public function testLoadRoutesBuildsGroupedRoutesFromConfig()
-//     {
-//         $name = 'route.name';
-//         $methods = 'GET';
-//         $prefix = '/prefix';
-//         $path = '/welcome';
-//         $serviceA = 'security';
-//         $serviceB = 'test';
-//         $callableA = function () { };
-//         $callableB = function () { };
-//         $middleware = [$callableA, $callableB];
+    public function testLoadRoutesBuildsRouteFromConfigAndIgnoresDuplicateMiddleware()
+    {
+        $name = 'route.name';
+        $methods = 'GET';
+        $path = '/welcome';
+        $service = 'test';
+        $callable = function () { };
+        $middleware = [function () { }];
 
-//         $config = <<<YAML
-// - path: $prefix
-//   stack:
-//     - $serviceA
-//   group:
-//     - name: $name
-//       path: $path
-//       via: $methods
-//       call: $serviceB
-//       stack:
-//         - $serviceB
-// YAML;
+        $config = <<<YAML
+- name: $name
+  via: $methods
+  path: $path
+  call: $service
+  stack:
+    - $service
+    - $service
+YAML;
 
-//         $root = vfsStream::setup();
-//         $file = vfsStream::newFile('routes.yml')
-//             ->withContent($config)
-//             ->at($root);
+        $root = vfsStream::setup();
+        $file = vfsStream::newFile('routes.yml')
+            ->withContent($config)
+            ->at($root);
 
-//         $route = new Route($methods, $prefix . $path, $callableA, $middleware);
+        $route = new Route($methods, $path, $callable, $middleware);
 
-//         $collection = $this->getMockCollection();
-//         $collection->expects($this->once())
-//             ->method('withRoute')
-//             ->with($name, $route);
+        $collection = $this->getMockCollection();
+        $collection->expects($this->once())
+            ->method('withRoute')
+            ->with($name, $route);
 
-//         $factory = $this->getMockFactory();
-//         $factory->expects($this->once())
-//             ->method('buildRoute')
-//             ->with($methods, $path, $serviceB, [$serviceA, $serviceB])
-//             ->willReturn($route);
+        $factory = $this->getMockFactory();
+        $factory->expects($this->once())
+            ->method('buildRoute')
+            ->with($methods, $path, $service, [$service])
+            ->willReturn($route);
 
-//         $instance = $this->getInstance($factory);
+        $instance = $this->getInstance($factory);
 
-//         $routes = $instance->loadRoutes($file->url(), $collection);
-//     }
+        $routes = $instance->loadRoutes($file->url(), $collection);
+    }
+
+    public function testLoadRoutesBuildsGroupedRoutesFromConfig()
+    {
+        $name = 'route.name';
+        $methods = 'GET';
+        $prefix = '/prefix';
+        $path = '/welcome';
+        $serviceA = 'security';
+        $serviceB = 'test';
+        $callableA = function () { };
+        $callableB = function () { };
+        $middleware = [$callableA, $callableB];
+
+        $config = <<<YAML
+- path: $prefix
+  stack:
+    - $serviceA
+  group:
+    - name: $name
+      path: $path
+      via: $methods
+      call: $serviceB
+      stack:
+        - $serviceB
+YAML;
+
+        $root = vfsStream::setup();
+        $file = vfsStream::newFile('routes.yml')
+            ->withContent($config)
+            ->at($root);
+
+        $route = new Route($methods, $prefix . $path, $callableA, $middleware);
+
+        $collection = $this->getMockCollection();
+        $collection->expects($this->once())
+            ->method('withRoute')
+            ->with($name, $route);
+
+        $factory = $this->getMockFactory();
+        $factory->expects($this->once())
+            ->method('buildRoute')
+            ->with($methods, $path, $serviceB, [$serviceA, $serviceB])
+            ->willReturn($route);
+
+        $instance = $this->getInstance($factory);
+
+        $routes = $instance->loadRoutes($file->url(), $collection);
+    }
+
+    public function testLoadRoutesBuildsGroupedRoutesFromConfigAndIgnoresDuplicateMiddleware()
+    {
+        $name = 'route.name';
+        $methods = 'GET';
+        $prefix = '/prefix';
+        $path = '/welcome';
+        $serviceA = 'security';
+        $serviceB = 'test';
+        $callableA = function () { };
+        $callableB = function () { };
+        $middleware = [$callableA, $callableB];
+
+        $config = <<<YAML
+- path: $prefix
+  stack:
+    - $serviceA
+    - $serviceB
+  group:
+    - name: $name
+      path: $path
+      via: $methods
+      call: $serviceB
+      stack:
+        - $serviceB
+YAML;
+
+        $root = vfsStream::setup();
+        $file = vfsStream::newFile('routes.yml')
+            ->withContent($config)
+            ->at($root);
+
+        $route = new Route($methods, $prefix . $path, $callableA, $middleware);
+
+        $collection = $this->getMockCollection();
+        $collection->expects($this->once())
+            ->method('withRoute')
+            ->with($name, $route);
+
+        $factory = $this->getMockFactory();
+        $factory->expects($this->once())
+            ->method('buildRoute')
+            ->with($methods, $path, $serviceB, [$serviceA, $serviceB])
+            ->willReturn($route);
+
+        $instance = $this->getInstance($factory);
+
+        $routes = $instance->loadRoutes($file->url(), $collection);
+    }
 
     public function getMockFactory()
     {

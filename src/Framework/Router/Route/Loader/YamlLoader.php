@@ -42,7 +42,7 @@ class YamlLoader implements LoaderInterface
         $this->parseRoutes($routes, $collection);
     }
 
-    protected function parseFile($file)
+    protected function parseFile(string $file)
     {
         try {
             return Yaml::parse(file_get_contents($file));
@@ -53,17 +53,17 @@ class YamlLoader implements LoaderInterface
         }
     }
 
-    protected function parseRoutes($routes, $collection)
+    protected function parseRoutes(array $routes, CollectionInterface $collection, array $stack = [])
     {
         foreach ($routes as $route) {
-            $this->parseRoute($route, $collection);
+            $this->parseRoute($route, $collection, $stack);
         }
     }
 
-    protected function parseRoute($route, $collection)
+    protected function parseRoute(array $route, CollectionInterface $collection, array $stack = [])
     {
         if (isset($route['group'])) {
-            return $this->parseRoutes($route['group'], $collection);
+            return $this->parseRoutes($route['group'], $collection, $route['stack']);
         }
 
         $collection->withRoute(
@@ -72,8 +72,15 @@ class YamlLoader implements LoaderInterface
                 $route['via'],
                 $route['path'],
                 $route['call'],
-                $route['stack']
+                $this->mergeMiddlewareStacks($stack, $route['stack'])
             )
+        );
+    }
+
+    protected function mergeMiddlewareStacks(array $first, array $second)
+    {
+        return array_unique(
+            array_merge($first, $second)
         );
     }
 }

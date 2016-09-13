@@ -1,6 +1,8 @@
 vendor/
 test/coverage/
 cache/
+.vagrant/
 
 phpunit.xml
 composer.lock
+*.log

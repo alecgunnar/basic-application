@@ -1,3 +1,3 @@
 imports:
-  - resource: '%config_dir%/services/framework.yml'
-  - resource: '%config_dir%/services/controllers.yml'
+  - resource: 'services/framework.yml'
+  - resource: 'services/controllers.yml'

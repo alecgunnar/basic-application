@@ -1,0 +1,25 @@
+server {
+        listen 80;
+
+        server_name youpickempro.com www.youpickempro.com test.youpickem.com;
+
+        root /vagrant/public;
+
+        index index.php;
+
+        location / {
+            try_files $uri @script;
+        }
+
+        location @script {
+            include snippets/fastcgi-php.conf;
+            include         fastcgi_params;
+            
+            fastcgi_param   SCRIPT_FILENAME    /vagrant/app/dev.php;
+            fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;
+            fastcgi_param   MAVERICK_ROOT      /var/www/maverick;
+
+            # With php7.0-fpm:
+            fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        }
+}

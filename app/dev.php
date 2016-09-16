@@ -6,4 +6,8 @@ define('IS_DEBUG', true);
 
 $container = require('bootstrap.php');
 
-run(ServerRequest::fromGlobals());
+$app = $container->get('framework.application');
+
+$response = $app->handleRequest(ServerRequest::fromGlobals());
+
+$app->sendResponse($response);

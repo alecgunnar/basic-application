@@ -1,23 +1,23 @@
 <?php
 
-namespace Application\Controller;
+namespace Framework\Handler;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class WelcomeController
+class NotFoundHandler implements HandlerInterface
 {
     protected $content = <<<BODY
 <!DOCTYPE html>
 <html>
     <head>
-        <title>It works!</title>
+        <title>Page not found</title>
     </head>
     <body>
         <header>
-            <h1>It works!</h1>
+            <h1>Page not found</h1>
         </header>
-        <p>The website is running!</p>
+        <p>The page you requested does not exist.</p>
     </body>
 </html>
 BODY;

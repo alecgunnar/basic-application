@@ -1,23 +1,23 @@
 <?php
 
-namespace Application\Controller;
+namespace Framework\Handler;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class WelcomeController
+class GracefulErrorHandler implements HandlerInterface
 {
     protected $content = <<<BODY
 <!DOCTYPE html>
 <html>
     <head>
-        <title>It works!</title>
+        <title>There was an error</title>
     </head>
     <body>
         <header>
-            <h1>It works!</h1>
+            <h1>There was an error</h1>
         </header>
-        <p>The website is running!</p>
+        <p>There was an error, your request cannot be completed.</p>
     </body>
 </html>
 BODY;

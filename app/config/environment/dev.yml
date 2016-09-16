@@ -1,2 +1,6 @@
-parameters:
-  router.cache_disabled: true
+services:
+  fast_route.cached_dispatcher:
+    class: FastRoute\Dispatcher
+    factory: 'FastRoute\simpleDispatcher'
+    arguments:
+      - '@framework.router.dispatcher.utility.collection_processor'

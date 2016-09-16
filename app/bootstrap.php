@@ -54,7 +54,7 @@ function run(ServerRequestInterface $request): ResponseInterface {
     global $container;
 
     $request = $container->get('framework.application');
-    return $app->run($request);
+    return $app->handleRequest($request);
 }
 
 /*

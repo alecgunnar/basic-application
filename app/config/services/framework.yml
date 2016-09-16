@@ -1,9 +1,16 @@
+parameters:
+  router.cache_disabled: false
+
 services:
   # Application
   framework.application:
     class: Framework\Application
     arguments:
       - '@framework.router'
+    calls:
+      - ['setNotFoundHandler', ['@handler.not_found']]
+      - ['setNotAllowedHandler', ['@handler.not_allowed']]
+      - ['setGenericErrorHandler', ['@handler.generic']]
 
   # Router
   framework.router:
@@ -35,6 +42,17 @@ services:
     class: Framework\Router\Dispatcher\Utility\CollectionProcessor
     arguments:
       - '@framework.router.route.collection'
+
+  # Handlers
+
+  handler.not_found:
+    class: Framework\Handler\NotFoundHandler
+
+  handler.not_allowed:
+    class: Framework\Handler\NotAllowedHandler
+
+  handler.generic:
+    class: Framework\Handler\GracefulErrorHandler
 
   # Fast route
   fast_route.cached_dispatcher:

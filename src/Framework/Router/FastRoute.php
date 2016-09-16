@@ -3,6 +3,7 @@
 namespace Framework\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Framework\Router\Route\Collection\CollectionInterface;
 use Framework\Router\Route\RouteInterface;
 use FastRoute\Dispatcher;
 
@@ -12,6 +13,11 @@ class FastRoute implements RouterInterface
      * @var Dispatcher
      */
     protected $dispatcher;
+
+    /**
+     * @var CollectionInterface
+     */
+    protected $collection;
 
     /**
      * @var RouteInterface
@@ -30,10 +36,12 @@ class FastRoute implements RouterInterface
 
     /**
      * @param Dispatcher $dispatcher
+     * @param CollectionInterface $collection
      */
-    public function __construct(Dispatcher $dispatcher)
+    public function __construct(Dispatcher $dispatcher, CollectionInterface $collection)
     {
         $this->dispatcher = $dispatcher;
+        $this->collection = $collection;
     }
 
     public function processRequest(ServerRequestInterface $request): int
@@ -45,7 +53,7 @@ class FastRoute implements RouterInterface
 
         switch ($ret[0]) {
             case Dispatcher::FOUND:
-                $this->route = $ret[1];
+                $this->route = $this->collection->getRoute($ret[1]);
                 $this->vars = $ret[2];
                 return RouterInterface::STATUS_FOUND;
             case Dispatcher::METHOD_NOT_ALLOWED:

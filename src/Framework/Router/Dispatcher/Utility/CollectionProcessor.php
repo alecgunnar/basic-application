@@ -22,11 +22,11 @@ class CollectionProcessor
 
     public function __invoke(RouteCollector $router)
     {
-        foreach ($this->collection->all() as $route) {
+        foreach ($this->collection->all() as $name => $route) {
             $router->addRoute(
                 $route->getMethods(),
                 $route->getPath(),
-                $route
+                $name
             );
         }
     }

@@ -3,6 +3,7 @@
 namespace Framework\Router\Route\Collection;
 
 use Framework\Router\Route\RouteInterface;
+use RuntimeException;
 
 class Collection implements CollectionInterface
 {
@@ -10,6 +11,11 @@ class Collection implements CollectionInterface
      * @var RouteInterface[]
      */
     protected $routes = [];
+
+    /**
+     * @var string
+     */
+    const INVALID_ROUTE_EXCEPTION = 'A route named "%s" does not exist.';
 
     public function withRoute(string $name, RouteInterface $route)
     {
@@ -29,5 +35,16 @@ class Collection implements CollectionInterface
     public function count(): int
     {
         return count($this->routes);
+    }
+
+    public function getRoute(string $name): RouteInterface
+    {
+        if (isset($this->routes[$name])) {
+            return $this->routes[$name];
+        }
+
+        throw new RuntimeException(
+            sprintf(self::INVALID_ROUTE_EXCEPTION, $name)
+        );
     }
 }

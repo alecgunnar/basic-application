@@ -52,6 +52,28 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         ], $instance->all());
     }
 
+    public function testGetRouteReturnsNamedRoute()
+    {
+        $name = 'test';
+        $given = $expected = $this->getMockRoute();
+
+        $instance = new Collection();
+
+        $instance->withRoute($name, $given);
+
+        $this->assertSame($expected, $instance->getRoute($name));
+    }
+
+    /**
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage A route named "test" does not exist.
+     */
+    public function testGetRouteThrowsExceptionWhenRouteDoesNotExist()
+    {
+        $instance = new Collection();
+        $instance->getRoute('test');
+    }
+
     protected function getMockRoute()
     {
         return $this->getMockBuilder(RouteInterface::class)

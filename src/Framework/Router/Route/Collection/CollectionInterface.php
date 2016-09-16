@@ -28,4 +28,12 @@ interface CollectionInterface extends Countable
      * @return RouteInterface[]
      */
     public function all(): array;
+
+    /**
+     * Get the route matching the given name
+     *
+     * @throws Exception
+     * @return RouteInterface
+     */
+    public function getRoute(string $name): RouteInterface;
 }

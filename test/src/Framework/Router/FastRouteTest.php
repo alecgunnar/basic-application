@@ -6,6 +6,7 @@ use PHPUnit_Framework_TestCase;
 use FastRoute\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
+use Framework\Router\Route\Collection\CollectionInterface;
 use Framework\Router\Route\RouteInterface;
 
 class FastRouteTest extends PHPUnit_Framework_TestCase
@@ -175,6 +176,12 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
             ->willReturn($uri);
 
         return $mock;
+    }
+
+    protected function getMockCollection()
+    {
+        return $this->getMockBuilder(CollectionInterface::class)
+            ->getMock();
     }
 
     protected function getMockRoute()

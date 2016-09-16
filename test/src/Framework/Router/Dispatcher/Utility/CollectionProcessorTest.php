@@ -11,17 +11,19 @@ class CollectionProcessorTest extends PHPUnit_Framework_TestCase
 {
     public function testRoutesAreAddededToCollectorFromCollection()
     {
+        $nameA = 'testRoute1';
         $methodsA = ['GET', 'POST'];
         $pathA = '/hello/world';
         $callableA = function () { };
 
+        $nameB = 'testRoute2';
         $methodsB = ['PUT', 'PATCH'];
         $pathB = '/hello/mars';
         $callableB = function () { };
 
         $routes = [
-            $routeA = $this->getMockRoute($methodsA, $pathA, $callableA),
-            $routeB = $this->getMockRoute($methodsB, $pathB, $callableB)
+            $nameA => ($routeA = $this->getMockRoute($methodsA, $pathA, $callableA)),
+            $nameB => ($routeB = $this->getMockRoute($methodsB, $pathB, $callableB))
         ];
 
         $collection = $this->getMockCollection();
@@ -34,8 +36,8 @@ class CollectionProcessorTest extends PHPUnit_Framework_TestCase
         $collector->expects($this->exactly(2))
             ->method('addRoute')
             ->withConsecutive(
-                [$methodsA, $pathA, $routeA],
-                [$methodsB, $pathB, $routeB]
+                [$methodsA, $pathA, $nameA],
+                [$methodsB, $pathB, $nameB]
             );
 
         $instance = new CollectionProcessor($collection);

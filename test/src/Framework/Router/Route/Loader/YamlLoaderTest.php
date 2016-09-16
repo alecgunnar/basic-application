@@ -470,6 +470,34 @@ YAML;
         $routes = $instance->loadRoutes($file->url(), $collection);
     }
 
+    public function testLoadRoutesGeneratesNameWhenMultipleMethodsProvided()
+    {
+        $methodA = 'GET';
+        $methodB = 'POST';
+        $path = '/hello';
+        $name = md5($path . $methodA . $methodB);
+
+        $config = <<<YAML
+- path: $path
+  via: [$methodA, $methodB]
+  call: handler
+YAML;
+
+        $root = vfsStream::setup();
+        $file = vfsStream::newFile('routes.yml')
+            ->withContent($config)
+            ->at($root);
+
+        $collection = $this->getMockCollection();
+        $collection->expects($this->once())
+            ->method('withRoute')
+            ->with($name, $this->anything());
+
+        $instance = $this->getInstance();
+
+        $routes = $instance->loadRoutes($file->url(), $collection);
+    }
+
     public function getMockFactory()
     {
         return $this->getMockBuilder(ContainerAwareFactoryInterface::class)

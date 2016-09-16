@@ -13,18 +13,25 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
 {
     public function testMatchingRouteFoundReturnsFound()
     {
+        $name = 'route_name';
         $method = 'GET';
         $uri = '/hello/world';
 
         $dispatcher = $this->getMockDispatcher();
         $dispatcher->expects($this->once())
-                ->method('dispatch')
-                ->with($method, $uri)
-                ->willReturn([Dispatcher::FOUND, function() { }, []]);
+            ->method('dispatch')
+            ->with($method, $uri)
+            ->willReturn([Dispatcher::FOUND, $name, []]);
 
         $request = $this->getMockRequest($method, $uri);
 
-        $instance = new FastRoute($dispatcher);
+        $collection = $this->getMockCollection();
+        $collection->expects($this->once())
+            ->method('getRoute')
+            ->with($name)
+            ->willReturn($this->getMockRoute());
+
+        $instance = new FastRoute($dispatcher, $collection);
 
         $this->assertEquals(RouterInterface::STATUS_FOUND, $instance->processRequest($request));
     }
@@ -36,13 +43,15 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
 
         $dispatcher = $this->getMockDispatcher();
         $dispatcher->expects($this->once())
-                ->method('dispatch')
-                ->with($method, $uri)
-                ->willReturn([Dispatcher::METHOD_NOT_ALLOWED, ['POST']]);
+            ->method('dispatch')
+            ->with($method, $uri)
+            ->willReturn([Dispatcher::METHOD_NOT_ALLOWED, ['POST']]);
 
         $request = $this->getMockRequest($method, $uri);
 
-        $instance = new FastRoute($dispatcher);
+        $collection = $this->getMockCollection();
+
+        $instance = new FastRoute($dispatcher, $collection);
 
         $this->assertEquals(RouterInterface::STATUS_NOT_ALLOWED, $instance->processRequest($request));
     }
@@ -54,32 +63,41 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
 
         $dispatcher = $this->getMockDispatcher();
         $dispatcher->expects($this->once())
-                ->method('dispatch')
-                ->with($method, $uri)
-                ->willReturn([Dispatcher::NOT_FOUND]);
+            ->method('dispatch')
+            ->with($method, $uri)
+            ->willReturn([Dispatcher::NOT_FOUND]);
 
         $request = $this->getMockRequest($method, $uri);
 
-        $instance = new FastRoute($dispatcher);
+        $collection = $this->getMockCollection();
+
+        $instance = new FastRoute($dispatcher, $collection);
 
         $this->assertEquals(RouterInterface::STATUS_NOT_FOUND, $instance->processRequest($request));
     }
 
     public function testGetRouteReturnsMatchedRoute()
     {
+        $name = 'route_name';
         $method = 'GET';
         $uri = '/hello/world';
         $route = $this->getMockRoute();
 
         $dispatcher = $this->getMockDispatcher();
         $dispatcher->expects($this->once())
-                ->method('dispatch')
-                ->with($method, $uri)
-                ->willReturn([Dispatcher::FOUND, $route, []]);
+            ->method('dispatch')
+            ->with($method, $uri)
+            ->willReturn([Dispatcher::FOUND, $name, []]);
 
         $request = $this->getMockRequest($method, $uri);
 
-        $instance = new FastRoute($dispatcher);
+        $collection = $this->getMockCollection();
+        $collection->expects($this->once())
+            ->method('getRoute')
+            ->with($name)
+            ->willReturn($route);
+
+        $instance = new FastRoute($dispatcher, $collection);
         $instance->processRequest($request);
 
         $this->assertSame($route, $instance->getRoute());
@@ -87,6 +105,7 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
 
     public function testGetUriVarsReturnsVarsFromMatchedUri()
     {
+        $name = 'named_route';
         $method = 'GET';
         $uri = '/hello/world';
         $route = $this->getMockRoute();
@@ -94,13 +113,19 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
 
         $dispatcher = $this->getMockDispatcher();
         $dispatcher->expects($this->once())
-                ->method('dispatch')
-                ->with($method, $uri)
-                ->willReturn([Dispatcher::FOUND, $route, $vars]);
+            ->method('dispatch')
+            ->with($method, $uri)
+            ->willReturn([Dispatcher::FOUND, $name, $vars]);
 
         $request = $this->getMockRequest($method, $uri);
 
-        $instance = new FastRoute($dispatcher);
+        $collection = $this->getMockCollection();
+        $collection->expects($this->once())
+            ->method('getRoute')
+            ->with($name)
+            ->willReturn($route);
+
+        $instance = new FastRoute($dispatcher, $collection);
         $instance->processRequest($request);
 
         $this->assertEquals($vars, $instance->getUriVars());
@@ -114,13 +139,15 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
 
         $dispatcher = $this->getMockDispatcher();
         $dispatcher->expects($this->once())
-                ->method('dispatch')
-                ->with($method, $uri)
-                ->willReturn([Dispatcher::METHOD_NOT_ALLOWED, $methods]);
+            ->method('dispatch')
+            ->with($method, $uri)
+            ->willReturn([Dispatcher::METHOD_NOT_ALLOWED, $methods]);
 
         $request = $this->getMockRequest($method, $uri);
 
-        $instance = new FastRoute($dispatcher);
+        $collection = $this->getMockCollection();
+
+        $instance = new FastRoute($dispatcher, $collection);
         $instance->processRequest($request);
 
         $this->assertEquals($methods, $instance->getAllowedMethods());
@@ -133,13 +160,15 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
 
         $dispatcher = $this->getMockDispatcher();
         $dispatcher->expects($this->once())
-                ->method('dispatch')
-                ->with($method, $uri)
-                ->willReturn([4]);
+            ->method('dispatch')
+            ->with($method, $uri)
+            ->willReturn([4]);
 
         $request = $this->getMockRequest($method, $uri);
 
-        $instance = new FastRoute($dispatcher);
+        $collection = $this->getMockCollection();
+
+        $instance = new FastRoute($dispatcher, $collection);
 
         $this->assertEquals(RouterInterface::STATUS_NOT_FOUND, $instance->processRequest($request));
     }

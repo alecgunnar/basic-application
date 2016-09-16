@@ -17,6 +17,7 @@ services:
     class: Framework\Router\FastRoute
     arguments:
       - '@fast_route.cached_dispatcher'
+      - '@framework.router.route.collection'
 
   framework.router.route.collection:
     class: Framework\Router\Route\Collection\Collection

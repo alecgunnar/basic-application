@@ -111,7 +111,9 @@ class YamlLoader implements LoaderInterface
         $this->checkForAttribute($route, 'call');
 
         $route['via'] = $route['via'] ?? self::DEFAULT_VIA;
-        $route['name'] = $route['name'] ?? md5($route['path'] . $route['via']);
+        $route['name'] = $route['name'] ?? md5(
+            $route['path'] . (is_array($route['via']) ? implode('', $route['via']) : $route['via'])
+        );
         $route['stack'] = $route['stack'] ?? [];
 
         return $route;

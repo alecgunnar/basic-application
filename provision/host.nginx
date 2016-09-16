@@ -1,22 +1,25 @@
 server {
-        listen 80 default;
+    listen 80 default;
 
-        root /vagrant/public;
+    root /vagrant/public;
 
-        index index.php;
+    index index.php;
 
-        location / {
-            try_files $uri @script;
-        }
+    error_log /vagrant/log/error.log;
+    access_log /vagrant/log/access.log;
 
-        location @script {
-            include         fastcgi_params;
-            
-            fastcgi_param   SCRIPT_FILENAME    /vagrant/app/dev.php;
-            fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;
-            fastcgi_param   MAVERICK_ROOT      /var/www/maverick;
+    location / {
+        try_files $uri @script;
+    }
 
-            # With php7.0-fpm:
-            fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
-        }
+    location @script {
+        include         fastcgi_params;
+        
+        fastcgi_param   SCRIPT_FILENAME    /vagrant/app/dev.php;
+        fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;
+        fastcgi_param   MAVERICK_ROOT      /var/www/maverick;
+
+        # With php7.0-fpm:
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+    }
 }

@@ -3,13 +3,13 @@ services:
   framework.application:
     class: Framework\Application
     arguments:
-      - @framework.router
+      - '@framework.router'
 
   # Router
   framework.router:
     class: Framework\Router\FastRoute
     arguments:
-      - '@fast_route.dispatcher'
+      - '@fast_route.cached_dispatcher'
 
   framework.router.route.collection:
     class: Framework\Router\Route\Collection\Collection
@@ -37,7 +37,7 @@ services:
       - '@framework.router.route.collection'
 
   # Fast route
-  fast_route.dispatcher:
+  fast_route.cached_dispatcher:
     class: FastRoute\Dispatcher
     factory: 'FastRoute\cachedDispatcher'
     arguments:

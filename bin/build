@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+ENV_DIR="app/config/environment"
+CACHE_DIR="cache"
+ENV="prod"
+
+# Validate the environment
+if [ -a "$ENV_DIR/$1.yml" ]
+then
+    ENV=$1
+fi
+
+# Announce intentions
+echo -n "Building for $ENV..."
+
+# Move the environment config into place
+cp -f "app/config/environment/$ENV.yml" "app/config/environment.yml"
+
+# Create a cache directory
+rm -rf $CACHE_DIR
+mkdir -p $CACHE_DIR
+
+# Run the app in build mode
+php app/build.php
+
+echo " done!"

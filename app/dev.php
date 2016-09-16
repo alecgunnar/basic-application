@@ -2,9 +2,8 @@
 
 use GuzzleHttp\Psr7\ServerRequest;
 
-require('bootstrap.php');
+define('IS_DEBUG', true);
 
-$response = $container->get('framework.application')
-    ->handleRequest(ServerRequest::fromGlobals());
+$container = require('bootstrap.php');
 
-var_dump($response);
+run(ServerRequest::fromGlobals());

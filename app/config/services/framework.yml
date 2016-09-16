@@ -60,5 +60,5 @@ services:
     factory: 'FastRoute\cachedDispatcher'
     arguments:
       - '@framework.router.dispatcher.utility.collection_processor'
-      - {cacheFile: '%router.cache_file%', cacheDisabled: '%router.cache_disabled%'}
+      - {cacheFile: '%router.cache_file%'}
 

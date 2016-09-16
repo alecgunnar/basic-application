@@ -40,7 +40,7 @@ class FastRoute implements RouterInterface
     {
         $ret = $this->dispatcher->dispatch(
             $request->getMethod(),
-            (string) $request->getUri()
+            $request->getUri()->getPath()
         );
 
         switch ($ret[0]) {

@@ -19,4 +19,4 @@ $container->setParameter('root_dir', $rootDir);
 $container->setParameter('config_dir', $configDir);
 
 $loader = new YamlFileLoader($container, new FileLocator($configDir));
-$loader->load('services.yml');
+$loader->load('config.yml');

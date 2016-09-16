@@ -6,3 +6,4 @@ cache/
 phpunit.xml
 composer.lock
 *.log
+app/config/environment.yml

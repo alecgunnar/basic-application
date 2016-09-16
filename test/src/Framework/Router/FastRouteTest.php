@@ -13,7 +13,7 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
     public function testMatchingRouteFoundReturnsFound()
     {
         $method = 'GET';
-        $uri = 'http://world.com/hello/world';
+        $uri = '/hello/world';
 
         $dispatcher = $this->getMockDispatcher();
         $dispatcher->expects($this->once())
@@ -31,7 +31,7 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
     public function testNotMatchingRouteMethodFoundReturnsNotAllowed()
     {
         $method = 'GET';
-        $uri = 'http://world.com/hello/world';
+        $uri = '/hello/world';
 
         $dispatcher = $this->getMockDispatcher();
         $dispatcher->expects($this->once())
@@ -49,7 +49,7 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
     public function testNoRouteFoundReturnsNotFound()
     {
         $method = 'GET';
-        $uri = 'http://world.com/hello/world';
+        $uri = '/hello/world';
 
         $dispatcher = $this->getMockDispatcher();
         $dispatcher->expects($this->once())
@@ -67,7 +67,7 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
     public function testGetRouteReturnsMatchedRoute()
     {
         $method = 'GET';
-        $uri = 'http://world.com/hello/world';
+        $uri = '/hello/world';
         $route = $this->getMockRoute();
 
         $dispatcher = $this->getMockDispatcher();
@@ -87,7 +87,7 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
     public function testGetUriVarsReturnsVarsFromMatchedUri()
     {
         $method = 'GET';
-        $uri = 'http://world.com/hello/world';
+        $uri = '/hello/world';
         $route = $this->getMockRoute();
         $vars = ['hello' => 'world', 'from' => 'mars'];
 
@@ -108,7 +108,7 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
     public function testGetAllowedMethodsReturnsMethodsAllowedByMatchedRoute()
     {
         $method = 'GET';
-        $uri = 'http://world.com/hello/world';
+        $uri = '/hello/world';
         $methods = ['POST', 'PUT'];
 
         $dispatcher = $this->getMockDispatcher();
@@ -128,7 +128,7 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
     public function testNotFoundIsReturnedByDefault()
     {
         $method = 'GET';
-        $uri = 'http://world.com/hello/world';
+        $uri = '/hello/world';
 
         $dispatcher = $this->getMockDispatcher();
         $dispatcher->expects($this->once())
@@ -171,7 +171,7 @@ class FastRouteTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $mock->expects($this->once())
-            ->method('__toString')
+            ->method('getPath')
             ->willReturn($uri);
 
         return $mock;

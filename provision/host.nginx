@@ -1,7 +1,5 @@
 server {
-        listen 80;
-
-        server_name youpickempro.com www.youpickempro.com test.youpickem.com;
+        listen 80 default;
 
         root /vagrant/public;
 
@@ -12,7 +10,6 @@ server {
         }
 
         location @script {
-            include snippets/fastcgi-php.conf;
             include         fastcgi_params;
             
             fastcgi_param   SCRIPT_FILENAME    /vagrant/app/dev.php;

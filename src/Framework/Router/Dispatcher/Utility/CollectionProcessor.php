@@ -26,7 +26,7 @@ class CollectionProcessor
             $router->addRoute(
                 $route->getMethods(),
                 $route->getPath(),
-                $route->getCallable()
+                $route
             );
         }
     }

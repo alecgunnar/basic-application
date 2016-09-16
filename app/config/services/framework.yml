@@ -1,8 +1,16 @@
-parameters:
-  framework.router.routes_config_path: '%config_dir%/routes.yml'
-  debug_mode: true
-
 services:
+  # Application
+  framework.application:
+    class: Framework\Application
+    arguments:
+      - @framework.router
+
+  # Router
+  framework.router:
+    class: Framework\Router\FastRoute
+    arguments:
+      - '@fast_route.dispatcher'
+
   framework.router.route.collection:
     class: Framework\Router\Route\Collection\Collection
     configurator: ['@framework.router.route.collection.configurator', 'configure']
@@ -11,7 +19,7 @@ services:
     class: Framework\Router\Route\Collection\Configurator\Configurator
     arguments:
       - '@framework.router.route.loader'
-      - '%framework.router.routes_config_path%'
+      - '%router.routes_file%'
 
   framework.router.route.factory:
     class: Framework\Router\Route\Factory\ContainerAwareFactory
@@ -22,11 +30,6 @@ services:
     class: Framework\Router\Route\Loader\YamlLoader
     arguments:
       - '@framework.router.route.factory'
-
-  framework.router:
-    class: Framework\Router\FastRoute
-    arguments:
-      - '@fast_route.dispatcher'
 
   framework.router.dispatcher.utility.collection_processor:
     class: Framework\Router\Dispatcher\Utility\CollectionProcessor
@@ -39,5 +42,5 @@ services:
     factory: 'FastRoute\cachedDispatcher'
     arguments:
       - '@framework.router.dispatcher.utility.collection_processor'
-      - {cacheFile: '%root_dir%/cache/routes.php', cacheDisabled: '%debug_mode%'}
+      - {cacheFile: '%router.cache_file%', cacheDisabled: '%router.cache_disabled%'}
 

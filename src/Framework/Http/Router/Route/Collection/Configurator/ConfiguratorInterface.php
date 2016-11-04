@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Router\Route\Collection\Configurator;
+namespace Framework\Http\Router\Route\Collection\Configurator;
 
-use Framework\Router\Route\Collection\CollectionInterface;
+use Framework\Http\Router\Route\Collection\CollectionInterface;
 
 interface ConfiguratorInterface
 {

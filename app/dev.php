@@ -2,12 +2,14 @@
 
 use GuzzleHttp\Psr7\ServerRequest;
 
+$root = dirname(__DIR__);
+require_once($root . '/vendor/autoload.php');
+
 define('IS_DEBUG', true);
 
-$container = require('bootstrap.php');
-
+$container = Framework\bootstrap($root);
 $app = $container->get('framework.application');
 
-$response = $app->handleRequest(ServerRequest::fromGlobals());
+$response = $app->handleRequest();
 
 $app->sendResponse($response);

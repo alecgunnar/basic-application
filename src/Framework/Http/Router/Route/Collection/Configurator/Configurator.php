@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Router\Route\Collection\Configurator;
+namespace Framework\Http\Router\Route\Collection\Configurator;
 
-use Framework\Router\Route\Loader\LoaderInterface;
-use Framework\Router\Route\Collection\CollectionInterface;
+use Framework\Http\Router\Route\Loader\LoaderInterface;
+use Framework\Http\Router\Route\Collection\CollectionInterface;
 
 class Configurator implements ConfiguratorInterface
 {

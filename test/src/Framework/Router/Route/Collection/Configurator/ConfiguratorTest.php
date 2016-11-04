@@ -1,11 +1,11 @@
 <?php
 
-namespace Framework\Router\Route\Collection\Configurator;
+namespace Framework\Http\Router\Route\Collection\Configurator;
 
 use PHPUnit_Framework_TestCase;
-use Framework\Router\Route\RouteInterface;
-use Framework\Router\Route\Loader\LoaderInterface;
-use Framework\Router\Route\Collection\CollectionInterface;
+use Framework\Http\Router\Route\RouteInterface;
+use Framework\Http\Router\Route\Loader\LoaderInterface;
+use Framework\Http\Router\Route\Collection\CollectionInterface;
 
 class ConfiguratorTest extends PHPUnit_Framework_TestCase
 {

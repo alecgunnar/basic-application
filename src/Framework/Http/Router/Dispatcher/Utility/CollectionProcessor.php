@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Router\Dispatcher\Utility;
+namespace Framework\Http\Router\Dispatcher\Utility;
 
-use Framework\Router\Route\Collection\CollectionInterface;
+use Framework\Http\Router\Route\Collection\CollectionInterface;
 use FastRoute\RouteCollector;
 
 class CollectionProcessor

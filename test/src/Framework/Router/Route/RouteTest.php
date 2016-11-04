@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Router\Route;
+namespace Framework\Http\Router\Route;
 
 use PHPUnit_Framework_TestCase;
 

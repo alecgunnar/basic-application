@@ -1,10 +1,10 @@
 <?php
 
-namespace Framework\Router\Dispatcher\Utility;
+namespace Framework\Http\Router\Dispatcher\Utility;
 
 use PHPUnit_Framework_TestCase;
-use Framework\Router\Route\Collection\CollectionInterface;
-use Framework\Router\Route\RouteInterface;
+use Framework\Http\Router\Route\Collection\CollectionInterface;
+use Framework\Http\Router\Route\RouteInterface;
 use FastRoute\RouteCollector;
 
 class CollectionProcessorTest extends PHPUnit_Framework_TestCase

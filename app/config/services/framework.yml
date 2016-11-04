@@ -4,60 +4,59 @@ parameters:
 services:
   # Application
   framework.application:
-    class: Framework\Application
+    class: 'Framework\Application'
     arguments:
       - '@framework.router'
-    calls:
-      - ['setNotFoundHandler', ['@handler.not_found']]
-      - ['setNotAllowedHandler', ['@handler.not_allowed']]
-      - ['setGenericErrorHandler', ['@handler.generic']]
+      - '@framework.http.request'
+
+  framework.http.request:
+    class: 'Psr\Http\Message\ServerRequestInterface'
+    factory: ['GuzzleHttp\Psr7\ServerRequest', 'fromGlobals']
 
   # Router
   framework.router:
-    class: Framework\Router\FastRoute
+    class: 'Framework\Http\Router\FastRouteRouter'
     arguments:
       - '@fast_route.cached_dispatcher'
       - '@framework.router.route.collection'
 
   framework.router.route.collection:
-    class: Framework\Router\Route\Collection\Collection
+    class: 'Framework\Http\Router\Route\Collection\Collection'
     configurator: ['@framework.router.route.collection.configurator', 'configure']
 
   framework.router.route.collection.configurator:
-    class: Framework\Router\Route\Collection\Configurator\Configurator
+    class: 'Framework\Http\Router\Route\Collection\Configurator\Configurator'
     arguments:
       - '@framework.router.route.loader'
       - '%router.routes_file%'
 
   framework.router.route.factory:
-    class: Framework\Router\Route\Factory\ContainerAwareFactory
+    class: 'Framework\Http\Router\Route\Factory\ContainerAwareFactory'
     arguments:
       - '@service_container'
 
   framework.router.route.loader:
-    class: Framework\Router\Route\Loader\YamlLoader
+    class: 'Framework\Http\Router\Route\Loader\YamlLoader'
     arguments:
       - '@framework.router.route.factory'
 
   framework.router.dispatcher.utility.collection_processor:
-    class: Framework\Router\Dispatcher\Utility\CollectionProcessor
+    class: 'Framework\Http\Router\Dispatcher\Utility\CollectionProcessor'
     arguments:
       - '@framework.router.route.collection'
 
-  # Handlers
+  # Whoops
+  whoops.run:
+    class: 'Whoops\Run'
+    calls:
+      - ['pushHandler', ['@whoops.handler.pretty']]
 
-  handler.not_found:
-    class: Framework\Handler\NotFoundHandler
-
-  handler.not_allowed:
-    class: Framework\Handler\NotAllowedHandler
-
-  handler.generic:
-    class: Framework\Handler\GracefulErrorHandler
+  whoops.handler.pretty:
+    class: 'Whoops\Handler\PrettyPageHandler'
 
   # Fast route
   fast_route.cached_dispatcher:
-    class: FastRoute\Dispatcher
+    class: 'FastRoute\Dispatcher'
     factory: 'FastRoute\cachedDispatcher'
     arguments:
       - '@framework.router.dispatcher.utility.collection_processor'

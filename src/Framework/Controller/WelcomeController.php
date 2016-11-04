@@ -1,30 +1,31 @@
 <?php
 
-namespace Framework\Handler;
+namespace Framework\Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class GracefulErrorHandler implements HandlerInterface
+class WelcomeController
 {
     protected $content = <<<BODY
 <!DOCTYPE html>
 <html>
     <head>
-        <title>There was an error</title>
+        <title>It works!</title>
     </head>
     <body>
         <header>
-            <h1>There was an error</h1>
+            <h1>It works!</h1>
         </header>
-        <p>There was an error, your request cannot be completed.</p>
+        <p>The website is running!</p>
     </body>
 </html>
 BODY;
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $response->getBody()->write($this->content);
+        $response->getBody()
+            ->write($this->content);
 
         return $response;
     }

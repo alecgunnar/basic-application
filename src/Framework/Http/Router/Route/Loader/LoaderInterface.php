@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Router\Route\Loader;
+namespace Framework\Http\Router\Route\Loader;
 
-use Framework\Router\Route\Collection\CollectionInterface;
+use Framework\Http\Router\Route\Collection\CollectionInterface;
 use InvalidArgumentException;
 
 interface LoaderInterface

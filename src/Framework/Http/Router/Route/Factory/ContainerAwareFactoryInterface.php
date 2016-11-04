@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Router\Route\Factory;
+namespace Framework\Http\Router\Route\Factory;
 
-use Framework\Router\Route\RouteInterface;
+use Framework\Http\Router\Route\RouteInterface;
 
 interface ContainerAwareFactoryInterface
 {

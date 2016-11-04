@@ -1,13 +1,13 @@
 <?php
 
-namespace Framework\Router;
+namespace Framework\Http\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Framework\Router\Route\Collection\CollectionInterface;
-use Framework\Router\Route\RouteInterface;
+use Framework\Http\Router\Route\Collection\CollectionInterface;
+use Framework\Http\Router\Route\RouteInterface;
 use FastRoute\Dispatcher;
 
-class FastRoute implements RouterInterface
+class FastRouteRouter implements RouterInterface
 {
     /**
      * @var Dispatcher

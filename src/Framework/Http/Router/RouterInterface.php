@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Router;
+namespace Framework\Http\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Framework\Router\Route\RouteInterface;
+use Framework\Http\Router\Route\RouteInterface;
 
 interface RouterInterface
 {

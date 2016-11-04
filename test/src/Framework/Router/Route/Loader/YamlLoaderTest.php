@@ -1,11 +1,11 @@
 <?php
 
-namespace Framework\Router\Route\Loader;
+namespace Framework\Http\Router\Route\Loader;
 
 use PHPUnit_Framework_TestCase;
-use Framework\Router\Route\Route;
-use Framework\Router\Route\Factory\ContainerAwareFactoryInterface;
-use Framework\Router\Route\Collection\CollectionInterface;
+use Framework\Http\Router\Route\Route;
+use Framework\Http\Router\Route\Factory\ContainerAwareFactoryInterface;
+use Framework\Http\Router\Route\Collection\CollectionInterface;
 use org\bovigo\vfs\vfsStream;
 
 class YamlLoaderTest extends PHPUnit_Framework_TestCase

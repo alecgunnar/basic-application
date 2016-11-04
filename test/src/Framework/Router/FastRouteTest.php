@@ -1,13 +1,13 @@
 <?php
 
-namespace Framework\Router;
+namespace Framework\Http\Router;
 
 use PHPUnit_Framework_TestCase;
 use FastRoute\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
-use Framework\Router\Route\Collection\CollectionInterface;
-use Framework\Router\Route\RouteInterface;
+use Framework\Http\Router\Route\Collection\CollectionInterface;
+use Framework\Http\Router\Route\RouteInterface;
 
 class FastRouteTest extends PHPUnit_Framework_TestCase
 {

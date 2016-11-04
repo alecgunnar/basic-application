@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Router\Route\Collection;
+namespace Framework\Http\Router\Route\Collection;
 
-use Framework\Router\Route\RouteInterface;
+use Framework\Http\Router\Route\RouteInterface;
 use Countable;
 
 interface CollectionInterface extends Countable

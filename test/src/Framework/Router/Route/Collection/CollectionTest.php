@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Router\Route\Collection;
+namespace Framework\Http\Router\Route\Collection;
 
 use PHPUnit_Framework_TestCase;
-use Framework\Router\Route\RouteInterface;
+use Framework\Http\Router\Route\RouteInterface;
 
 class CollectionTest extends PHPUnit_Framework_TestCase
 {

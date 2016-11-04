@@ -2,17 +2,20 @@
 
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 
+$root = dirname(__DIR__);
+require_once($root . '/vendor/autoload.php');
+
 /*
  * Let the bootstrap know we're building
  */
 
-define('IS_BUILD', true);
+define('IS_DEBUG', true);
 
 /*
  * Load the container
  */
 
-$container = require('bootstrap.php');
+$container = \Framework\bootstrap($root);
 
 /*
  * Cache the container

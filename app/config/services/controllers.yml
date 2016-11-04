@@ -1,3 +1,3 @@
 services:
   controller.welcome:
-    class: Application\Controller\WelcomeController
+    class: Framework\Controller\WelcomeController

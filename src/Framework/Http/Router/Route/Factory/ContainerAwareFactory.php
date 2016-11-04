@@ -1,10 +1,10 @@
 <?php
 
-namespace Framework\Router\Route\Factory;
+namespace Framework\Http\Router\Route\Factory;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Framework\Router\Route\RouteInterface;
-use Framework\Router\Route\Route;
+use Framework\Http\Router\Route\RouteInterface;
+use Framework\Http\Router\Route\Route;
 
 class ContainerAwareFactory implements ContainerAwareFactoryInterface
 {

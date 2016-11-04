@@ -69,7 +69,6 @@ function bootstrap(string $root = null): ContainerInterface
         $container->setParameter('cache_dir', CACHE_DIR);
 
         $container->setParameter('is_debug', IS_DEBUG);
-        $container->setParameter('is_build', IS_BUILD);
 
         $loader = new YamlFileLoader($container, new FileLocator(CONFIG_DIR));
         $loader->load(PRIMARY_CONFIG_FILE);

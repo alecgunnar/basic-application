@@ -45,14 +45,39 @@ services:
     arguments:
       - '@framework.router.route.collection'
 
+  # Views
+  framework.view.welcome:
+    class: 'Framework\View\WelcomeView'
+
+  framework.view.not_found:
+    class: 'Framework\View\NotFoundView'
+
+  framework.view.not_allowed:
+    class: 'Framework\View\NotAllowedView'
+
+  framework.view.fatal_error:
+    class: 'Framework\View\FatalErrorView'
+
   # Whoops
   whoops.run:
     class: 'Whoops\Run'
     calls:
       - ['pushHandler', ['@whoops.handler.pretty']]
+      - ['pushHandler', ['@framework.handler.http_exception']]
 
   whoops.handler.pretty:
     class: 'Whoops\Handler\PrettyPageHandler'
+
+  framework.handler.http_exception:
+    class: 'Framework\Handler\HttpExceptionHandler'
+
+  framework.handler.safe_render:
+    class: 'Framework\Handler\SafeRenderHandler'
+    arguments:
+      - '@framework.view.fatal_error'
+    calls:
+      - ['addView', [404, '@framework.view.not_found']]
+      - ['addView', [405, '@framework.view.not_allowed']]
 
   # Fast route
   fast_route.cached_dispatcher:

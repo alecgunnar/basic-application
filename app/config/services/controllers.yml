@@ -1,3 +1,5 @@
 services:
   controller.welcome:
-    class: Framework\Controller\WelcomeController
+    class: Framework\Controller\RenderableController
+    arguments:
+      - '@framework.view.welcome'

@@ -3,8 +3,8 @@
 namespace Framework;
 
 use Framework\Http\Router\RouterInterface;
-use Framework\Http\Router\Exception\NotFoundException;
-use Framework\Http\Router\Exception\NotAllowedException;
+use Framework\Http\Exception\NotFoundException;
+use Framework\Http\Exception\NotAllowedException;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Response;
@@ -52,21 +52,23 @@ class Application
     public function handleRequest(ServerRequestInterface $request = null): ResponseInterface
     {
         $request = $request ?? $this->request;
+        $response = new Response();
+
         $status = $this->router->processRequest($request);
 
         switch ($status) {
             case RouterInterface::STATUS_NOT_FOUND:
                 $msg = sprintf(self::NOT_FOUND_FORMAT, strtoupper($request->getMethod()), $request->getUri()->getPath());
-                throw new NotFoundException($msg);
+                throw new NotFoundException($msg, $request, $response);
             case RouterInterface::STATUS_NOT_ALLOWED:
                 $msg = sprintf(self::NOT_ALLOWED_FORMAT, strtoupper($request->getMethod()));
-                throw new NotAllowedException($msg);
+                throw new NotAllowedException($msg, $request, $response);
             case RouterInterface::STATUS_FOUND:
                 $callable = $this->router->getRoute()
                     ->getCallable();
         }
 
-        $response = $callable($request, new Response());
+        $response = $callable($request, $response);
 
         if (!($response instanceof ResponseInterface)) {
             $msg = sprintf(self::CALLABLE_RETURN_INVALID_FORMAT, ResponseInterface::class);

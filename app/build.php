@@ -6,16 +6,11 @@ $root = dirname(__DIR__);
 require_once($root . '/vendor/autoload.php');
 
 /*
- * Let the bootstrap know we're building
- */
-
-define('IS_DEBUG', true);
-
-/*
  * Load the container
  */
 
-$container = \Framework\bootstrap($root);
+$container = \Framework\bootstrap($root, true);
+$container = $container->get('service_container');
 
 /*
  * Cache the container

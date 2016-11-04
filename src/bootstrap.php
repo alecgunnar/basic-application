@@ -11,7 +11,7 @@ use Acclimate\Container\ContainerAcclimator;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-function bootstrap(string $root = null): ContainerInterface
+function bootstrap(string $root = null, bool $debug = false): ContainerInterface
 {
     $container = null;
 
@@ -38,18 +38,10 @@ function bootstrap(string $root = null): ContainerInterface
     define('CONTAINER_CACHE_CLASS', 'CachedContainer');
 
     /*
-     * Define the application's state
-     */
-
-    if (!defined('IS_DEBUG')) {
-        define('IS_DEBUG', false);
-    }
-
-    /*
      * Try to load the container from the cache
      */
 
-    if (!IS_DEBUG && file_exists(CONTAINER_CACHE_FILE)) {
+    if (!$debug && file_exists(CONTAINER_CACHE_FILE)) {
         require_once(CONTAINER_CACHE_FILE);
 
         $class = CONTAINER_CACHE_CLASS;
@@ -68,7 +60,7 @@ function bootstrap(string $root = null): ContainerInterface
         $container->setParameter('config_dir', CONFIG_DIR);
         $container->setParameter('cache_dir', CACHE_DIR);
 
-        $container->setParameter('is_debug', IS_DEBUG);
+        $container->setParameter('is_debug', $debug);
 
         $loader = new YamlFileLoader($container, new FileLocator(CONFIG_DIR));
         $loader->load(PRIMARY_CONFIG_FILE);

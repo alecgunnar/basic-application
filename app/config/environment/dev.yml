@@ -1,5 +1,5 @@
 services:
-  fast_route.cached_dispatcher:
+  fast_route.dispatcher:
     class: FastRoute\Dispatcher
     factory: 'FastRoute\simpleDispatcher'
     arguments:

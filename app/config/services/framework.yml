@@ -17,7 +17,7 @@ services:
   framework.router:
     class: 'Framework\Http\Router\FastRouteRouter'
     arguments:
-      - '@fast_route.cached_dispatcher'
+      - '@fast_route.dispatcher'
       - '@framework.router.route.collection'
 
   framework.router.route.collection:
@@ -87,3 +87,5 @@ services:
       - '@framework.router.dispatcher.utility.collection_processor'
       - {cacheFile: '%router.cache_file%'}
 
+  fast_route.dispatcher:
+    alias: 'fast_route.cached_dispatcher'

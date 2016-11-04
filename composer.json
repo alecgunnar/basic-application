@@ -26,11 +26,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Application\\": "src/Application",
-            "Framework\\": "src/Framework"
+            "Framework\\": "src/"
         },
         "files": [
-            "src/Framework/bootstrap.php"
+            "src/bootstrap.php"
         ]
     }
 }

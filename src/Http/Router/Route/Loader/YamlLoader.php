@@ -70,7 +70,7 @@ class YamlLoader implements LoaderInterface
         string $prefix = '',
         array $stack = []
     ) {
-        foreach ($routes as $route) {
+        foreach ($routes as $name => $route) {
             if (isset($route['group'])) {
                 $this->parseRoutes(
                     $route['group'],
@@ -80,6 +80,10 @@ class YamlLoader implements LoaderInterface
                 );
 
                 continue;
+            }
+
+            if (is_string($name)) {
+                $route['name'] = $route['name'] ?? $name;
             }
 
             $this->parseRoute($route, $collection, $prefix, $stack);

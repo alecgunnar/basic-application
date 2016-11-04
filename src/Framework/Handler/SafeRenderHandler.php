@@ -31,6 +31,8 @@ class SafeRenderHandler extends Handler
         $view = $this->views[$code] ?? $this->defaultView;
 
         echo $view->render();
+
+        return Handler::QUIT;
     }
 
     public function addView(string $code, ViewInterface $view)

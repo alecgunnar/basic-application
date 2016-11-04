@@ -13,7 +13,7 @@ class HttpExceptionHandler extends Handler
 
         if ($exception instanceof HttpExceptionInterface) {
             $this->getRun()->sendHttpCode(
-                $exception->getResponse()->getStatusCode()
+                $exception->getStatusCode()
             );
         }
     }

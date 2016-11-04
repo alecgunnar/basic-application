@@ -52,23 +52,22 @@ class Application
     public function handleRequest(ServerRequestInterface $request = null): ResponseInterface
     {
         $request = $request ?? $this->request;
-        $response = new Response();
 
         $status = $this->router->processRequest($request);
 
         switch ($status) {
             case RouterInterface::STATUS_NOT_FOUND:
                 $msg = sprintf(self::NOT_FOUND_FORMAT, strtoupper($request->getMethod()), $request->getUri()->getPath());
-                throw new NotFoundException($msg, $request, $response);
+                throw new NotFoundException($msg, $request);
             case RouterInterface::STATUS_NOT_ALLOWED:
                 $msg = sprintf(self::NOT_ALLOWED_FORMAT, strtoupper($request->getMethod()));
-                throw new NotAllowedException($msg, $request, $response);
+                throw new NotAllowedException($msg, $request);
             case RouterInterface::STATUS_FOUND:
                 $callable = $this->router->getRoute()
                     ->getCallable();
         }
 
-        $response = $callable($request, $response);
+        $response = $callable($request, new Response());
 
         if (!($response instanceof ResponseInterface)) {
             $msg = sprintf(self::CALLABLE_RETURN_INVALID_FORMAT, ResponseInterface::class);

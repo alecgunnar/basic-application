@@ -13,31 +13,15 @@ abstract class HttpException extends RuntimeException implements HttpExceptionIn
      */
     private $request;
 
-    /**
-     * @var ResponseInterface
-     */
-    private $response;
-
-    public function __construct(string $message, ServerRequestInterface $request, ResponseInterface $response)
+    public function __construct(string $message, ServerRequestInterface $request)
     {
         parent::__construct($message);
 
         $this->request = $request;
-        $this->response = $response->withStatus($this->getStatus());
     }
 
     public function getServerRequest(): ServerRequestInterface
     {
         return $this->request;
     }
-
-    public function getResponse(): ResponseInterface
-    {
-        return $this->response;
-    }
-
-    /**
-     * @return int
-     */
-    abstract protected function getStatus(): int;
 }

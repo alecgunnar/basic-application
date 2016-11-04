@@ -13,7 +13,7 @@ interface HttpExceptionInterface
     public function getServerRequest(): ServerRequestInterface;
 
     /**
-     * @return ResponseInterface
+     * @return int
      */
-    public function getResponse(): ResponseInterface;
+    public function getStatusCode(): int;
 }

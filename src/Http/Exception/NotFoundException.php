@@ -4,7 +4,7 @@ namespace Framework\Http\Exception;
 
 class NotFoundException extends HttpException
 {
-    protected function getStatus(): int
+    public function getStatusCode(): int
     {
         return 404;
     }

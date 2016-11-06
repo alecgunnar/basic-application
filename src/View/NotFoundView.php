@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\View;
+namespace Maverick\View;
 
 class NotFoundView implements ViewInterface
 {
@@ -28,7 +28,7 @@ class NotFoundView implements ViewInterface
 </html>
 BODY;
 
-    public function render(): string
+    public function render(array $params = []): string
     {
         return $this->content;
     }

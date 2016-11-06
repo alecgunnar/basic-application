@@ -1,7 +1,7 @@
 services:
   # Application
   framework.application:
-    class: 'Framework\Application'
+    class: 'Maverick\Application'
     arguments:
       - '@framework.router'
       - '@framework.http.request'
@@ -12,48 +12,48 @@ services:
 
   # Router
   framework.router:
-    class: 'Framework\Http\Router\FastRouteRouter'
+    class: 'Maverick\Http\Router\FastRouteRouter'
     arguments:
       - '@fast_route.dispatcher'
       - '@framework.router.route.collection'
 
   framework.router.route.collection:
-    class: 'Framework\Http\Router\Route\Collection\Collection'
+    class: 'Maverick\Http\Router\Route\Collection\Collection'
     configurator: ['@framework.router.route.collection.configurator', 'configure']
 
   framework.router.route.collection.configurator:
-    class: 'Framework\Http\Router\Route\Collection\Configurator\Configurator'
+    class: 'Maverick\Http\Router\Route\Collection\Configurator\Configurator'
     arguments:
       - '@framework.router.route.loader'
       - '%router.routes_file%'
 
   framework.router.route.factory:
-    class: 'Framework\Http\Router\Route\Factory\ContainerAwareFactory'
+    class: 'Maverick\Http\Router\Route\Factory\ContainerAwareFactory'
     arguments:
       - '@service_container'
 
   framework.router.route.loader:
-    class: 'Framework\Http\Router\Route\Loader\YamlLoader'
+    class: 'Maverick\Http\Router\Route\Loader\YamlLoader'
     arguments:
       - '@framework.router.route.factory'
 
   framework.router.dispatcher.utility.collection_processor:
-    class: 'Framework\Http\Router\Dispatcher\Utility\CollectionProcessor'
+    class: 'Maverick\Http\Router\Dispatcher\Utility\CollectionProcessor'
     arguments:
       - '@framework.router.route.collection'
 
   # Views
   framework.view.welcome:
-    class: 'Framework\View\WelcomeView'
+    class: 'Maverick\View\WelcomeView'
 
   framework.view.not_found:
-    class: 'Framework\View\NotFoundView'
+    class: 'Maverick\View\NotFoundView'
 
   framework.view.not_allowed:
-    class: 'Framework\View\NotAllowedView'
+    class: 'Maverick\View\NotAllowedView'
 
   framework.view.fatal_error:
-    class: 'Framework\View\FatalErrorView'
+    class: 'Maverick\View\FatalErrorView'
 
   # Whoops
   whoops.run:
@@ -66,10 +66,10 @@ services:
     class: 'Whoops\Handler\PrettyPageHandler'
 
   framework.handler.http_exception:
-    class: 'Framework\Handler\HttpExceptionHandler'
+    class: 'Maverick\Handler\HttpExceptionHandler'
 
   framework.handler.safe_render:
-    class: 'Framework\Handler\SafeRenderHandler'
+    class: 'Maverick\Handler\SafeRenderHandler'
     arguments:
       - '@framework.view.fatal_error'
     calls:

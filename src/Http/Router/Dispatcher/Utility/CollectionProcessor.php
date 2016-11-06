@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Http\Router\Dispatcher\Utility;
+namespace Maverick\Http\Router\Dispatcher\Utility;
 
-use Framework\Http\Router\Route\Collection\CollectionInterface;
+use Maverick\Http\Router\Route\Collection\CollectionInterface;
 use FastRoute\RouteCollector;
 
 class CollectionProcessor

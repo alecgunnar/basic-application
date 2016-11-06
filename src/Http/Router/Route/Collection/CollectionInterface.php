@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Http\Router\Route\Collection;
+namespace Maverick\Http\Router\Route\Collection;
 
-use Framework\Http\Router\Route\RouteInterface;
+use Maverick\Http\Router\Route\RouteInterface;
 use Countable;
 
 interface CollectionInterface extends Countable

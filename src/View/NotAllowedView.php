@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\View;
+namespace Maverick\View;
 
 class NotAllowedView implements ViewInterface
 {
@@ -27,7 +27,7 @@ class NotAllowedView implements ViewInterface
 </html>
 BODY;
 
-    public function render(): string
+    public function render(array $params = []): string
     {
         return $this->content;
     }

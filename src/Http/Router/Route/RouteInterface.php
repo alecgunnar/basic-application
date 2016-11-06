@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Http\Router\Route;
+namespace Maverick\Http\Router\Route;
 
 interface RouteInterface
 {

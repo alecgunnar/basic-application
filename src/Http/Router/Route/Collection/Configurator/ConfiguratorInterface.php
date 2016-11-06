@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Http\Router\Route\Collection\Configurator;
+namespace Maverick\Http\Router\Route\Collection\Configurator;
 
-use Framework\Http\Router\Route\Collection\CollectionInterface;
+use Maverick\Http\Router\Route\Collection\CollectionInterface;
 
 interface ConfiguratorInterface
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Http\Router;
+namespace Maverick\Http\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Framework\Http\Router\Route\RouteInterface;
+use Maverick\Http\Router\Route\RouteInterface;
 
 interface RouterInterface
 {

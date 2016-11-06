@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework;
+namespace Maverick;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Framework\Controller;
+namespace Maverick\Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Framework\View\ViewInterface;
+use Maverick\View\ViewInterface;
 
 class RenderableController
 {

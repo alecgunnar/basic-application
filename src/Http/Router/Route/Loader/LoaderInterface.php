@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Http\Router\Route\Loader;
+namespace Maverick\Http\Router\Route\Loader;
 
-use Framework\Http\Router\Route\Collection\CollectionInterface;
+use Maverick\Http\Router\Route\Collection\CollectionInterface;
 use InvalidArgumentException;
 
 interface LoaderInterface

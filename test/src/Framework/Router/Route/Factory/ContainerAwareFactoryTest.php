@@ -1,10 +1,10 @@
 <?php
 
-namespace Framework\Http\Router\Route\Factory;
+namespace Maverick\Http\Router\Route\Factory;
 
 use PHPUnit_Framework_TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Framework\Http\Router\Route\Route;
+use Maverick\Http\Router\Route\Route;
 
 class ContainerAwareFactoryTest extends PHPUnit_Framework_TestCase
 {

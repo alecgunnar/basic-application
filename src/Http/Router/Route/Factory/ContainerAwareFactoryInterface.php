@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Http\Router\Route\Factory;
+namespace Maverick\Http\Router\Route\Factory;
 
-use Framework\Http\Router\Route\RouteInterface;
+use Maverick\Http\Router\Route\RouteInterface;
 
 interface ContainerAwareFactoryInterface
 {

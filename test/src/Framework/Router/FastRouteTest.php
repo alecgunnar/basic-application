@@ -1,13 +1,13 @@
 <?php
 
-namespace Framework\Http\Router;
+namespace Maverick\Http\Router;
 
 use PHPUnit_Framework_TestCase;
 use FastRoute\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
-use Framework\Http\Router\Route\Collection\CollectionInterface;
-use Framework\Http\Router\Route\RouteInterface;
+use Maverick\Http\Router\Route\Collection\CollectionInterface;
+use Maverick\Http\Router\Route\RouteInterface;
 
 class FastRouteTest extends PHPUnit_Framework_TestCase
 {

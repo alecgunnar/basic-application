@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Http\Exception;
+namespace Maverick\Http\Exception;
 
 use RuntimeException;
 use Psr\Http\Message\ServerRequestInterface;

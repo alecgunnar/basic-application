@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Handler;
+namespace Maverick\Handler;
 
 use Whoops\Handler\Handler;
 

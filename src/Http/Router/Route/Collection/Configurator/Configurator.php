@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Http\Router\Route\Collection\Configurator;
+namespace Maverick\Http\Router\Route\Collection\Configurator;
 
-use Framework\Http\Router\Route\Loader\LoaderInterface;
-use Framework\Http\Router\Route\Collection\CollectionInterface;
+use Maverick\Http\Router\Route\Loader\LoaderInterface;
+use Maverick\Http\Router\Route\Collection\CollectionInterface;
 
 class Configurator implements ConfiguratorInterface
 {

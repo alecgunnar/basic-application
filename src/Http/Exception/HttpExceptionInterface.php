@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Http\Exception;
+namespace Maverick\Http\Exception;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;

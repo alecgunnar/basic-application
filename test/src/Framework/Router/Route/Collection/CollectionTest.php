@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Http\Router\Route\Collection;
+namespace Maverick\Http\Router\Route\Collection;
 
 use PHPUnit_Framework_TestCase;
-use Framework\Http\Router\Route\RouteInterface;
+use Maverick\Http\Router\Route\RouteInterface;
 
 class CollectionTest extends PHPUnit_Framework_TestCase
 {

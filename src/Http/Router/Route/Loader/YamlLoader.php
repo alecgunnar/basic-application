@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Http\Router\Route\Loader;
+namespace Maverick\Http\Router\Route\Loader;
 
-use Framework\Http\Router\Route\Factory\ContainerAwareFactoryInterface;
-use Framework\Http\Router\Route\Collection\CollectionInterface;
+use Maverick\Http\Router\Route\Factory\ContainerAwareFactoryInterface;
+use Maverick\Http\Router\Route\Collection\CollectionInterface;
 use InvalidArgumentException;
 use Exception;
 use Symfony\Component\Yaml\Yaml;

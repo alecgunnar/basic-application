@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Handler;
+namespace Maverick\Handler;
 
 use Whoops\Handler\Handler;
-use Framework\Http\Exception\HttpExceptionInterface;
+use Maverick\Http\Exception\HttpExceptionInterface;
 
 class HttpExceptionHandler extends Handler
 {

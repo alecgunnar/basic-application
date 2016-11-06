@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Handler;
+namespace Maverick\Handler;
 
 use Whoops\Handler\Handler;
-use Framework\View\ViewInterface;
+use Maverick\View\ViewInterface;
 
 class SafeRenderHandler extends Handler
 {

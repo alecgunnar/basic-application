@@ -1,10 +1,10 @@
 <?php
 
-namespace Framework;
+namespace Maverick;
 
-use Framework\Http\Router\RouterInterface;
-use Framework\Http\Exception\NotFoundException;
-use Framework\Http\Exception\NotAllowedException;
+use Maverick\Http\Router\RouterInterface;
+use Maverick\Http\Exception\NotFoundException;
+use Maverick\Http\Exception\NotAllowedException;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Response;

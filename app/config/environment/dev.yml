@@ -3,4 +3,4 @@ services:
     class: FastRoute\Dispatcher
     factory: 'FastRoute\simpleDispatcher'
     arguments:
-      - '@framework.router.dispatcher.utility.collection_processor'
+      - '@maverick.router.dispatcher.utility.collection_processor'

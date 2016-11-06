@@ -1,58 +1,62 @@
 services:
   # Application
-  framework.application:
+  maverick.application:
     class: 'Maverick\Application'
     arguments:
-      - '@framework.router'
-      - '@framework.http.request'
+      - '@maverick.router'
+      - '@maverick.http.request'
+      - '@maverick.http.response'
 
-  framework.http.request:
+  maverick.http.request:
     class: 'Psr\Http\Message\ServerRequestInterface'
     factory: ['GuzzleHttp\Psr7\ServerRequest', 'fromGlobals']
 
+  maverick.http.response:
+    class: 'GuzzleHttp\Psr7\Response'
+
   # Router
-  framework.router:
+  maverick.router:
     class: 'Maverick\Http\Router\FastRouteRouter'
     arguments:
       - '@fast_route.dispatcher'
-      - '@framework.router.route.collection'
+      - '@maverick.router.route.collection'
 
-  framework.router.route.collection:
+  maverick.router.route.collection:
     class: 'Maverick\Http\Router\Route\Collection\Collection'
-    configurator: ['@framework.router.route.collection.configurator', 'configure']
+    configurator: ['@maverick.router.route.collection.configurator', 'configure']
 
-  framework.router.route.collection.configurator:
+  maverick.router.route.collection.configurator:
     class: 'Maverick\Http\Router\Route\Collection\Configurator\Configurator'
     arguments:
-      - '@framework.router.route.loader'
+      - '@maverick.router.route.loader'
       - '%router.routes_file%'
 
-  framework.router.route.factory:
+  maverick.router.route.factory:
     class: 'Maverick\Http\Router\Route\Factory\ContainerAwareFactory'
     arguments:
       - '@service_container'
 
-  framework.router.route.loader:
+  maverick.router.route.loader:
     class: 'Maverick\Http\Router\Route\Loader\YamlLoader'
     arguments:
-      - '@framework.router.route.factory'
+      - '@maverick.router.route.factory'
 
-  framework.router.dispatcher.utility.collection_processor:
+  maverick.router.dispatcher.utility.collection_processor:
     class: 'Maverick\Http\Router\Dispatcher\Utility\CollectionProcessor'
     arguments:
-      - '@framework.router.route.collection'
+      - '@maverick.router.route.collection'
 
   # Views
-  framework.view.welcome:
+  maverick.view.welcome:
     class: 'Maverick\View\WelcomeView'
 
-  framework.view.not_found:
+  maverick.view.not_found:
     class: 'Maverick\View\NotFoundView'
 
-  framework.view.not_allowed:
+  maverick.view.not_allowed:
     class: 'Maverick\View\NotAllowedView'
 
-  framework.view.fatal_error:
+  maverick.view.fatal_error:
     class: 'Maverick\View\FatalErrorView'
 
   # Whoops
@@ -60,28 +64,28 @@ services:
     class: 'Whoops\Run'
     calls:
       - ['pushHandler', ['@whoops.handler.pretty']]
-      - ['pushHandler', ['@framework.handler.http_exception']]
+      - ['pushHandler', ['@maverick.handler.http_exception']]
 
   whoops.handler.pretty:
     class: 'Whoops\Handler\PrettyPageHandler'
 
-  framework.handler.http_exception:
+  maverick.handler.http_exception:
     class: 'Maverick\Handler\HttpExceptionHandler'
 
-  framework.handler.safe_render:
+  maverick.handler.safe_render:
     class: 'Maverick\Handler\SafeRenderHandler'
     arguments:
-      - '@framework.view.fatal_error'
+      - '@maverick.view.fatal_error'
     calls:
-      - ['addView', [404, '@framework.view.not_found']]
-      - ['addView', [405, '@framework.view.not_allowed']]
+      - ['addView', [404, '@maverick.view.not_found']]
+      - ['addView', [405, '@maverick.view.not_allowed']]
 
   # Fast route
   fast_route.cached_dispatcher:
     class: 'FastRoute\Dispatcher'
     factory: 'FastRoute\cachedDispatcher'
     arguments:
-      - '@framework.router.dispatcher.utility.collection_processor'
+      - '@maverick.router.dispatcher.utility.collection_processor'
       - {cacheFile: '%router.cache_file%'}
 
   fast_route.dispatcher:

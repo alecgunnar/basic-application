@@ -2,4 +2,4 @@ services:
   controller.welcome:
     class: Maverick\Controller\RenderableController
     arguments:
-      - '@framework.view.welcome'
+      - '@maverick.view.welcome'

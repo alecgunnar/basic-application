@@ -22,6 +22,16 @@ class Application
     protected $request;
 
     /**
+     * @var ResponseInterface
+     */
+    protected $response;
+
+    /**
+     * @var ResponseInterface
+     */
+    protected $sentResponse;
+
+    /**
      * @var string
      */
     const NOT_FOUND_FORMAT = 'A route does not exist for "%s %s".';
@@ -39,19 +49,27 @@ class Application
     /**
      * @param RouterInterface $router
      */
-    public function __construct(RouterInterface $router, ServerRequestInterface $request)
-    {
+    public function __construct(
+        RouterInterface $router,
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ) {
         $this->router = $router;
         $this->request = $request;
+        $this->response = $response;
     }
 
     /**
      * @param ServerRequestInterface $request = null
+     * @param ResponseInterface $response = null
      * @return ResponseInterface $response
      */
-    public function handleRequest(ServerRequestInterface $request = null): ResponseInterface
-    {
+    public function handleRequest(
+        ServerRequestInterface $request = null,
+        ResponseInterface $response = null
+    ): ResponseInterface {
         $request = $request ?? $this->request;
+        $response = $response ?? $this->response;
 
         $status = $this->router->processRequest($request);
 
@@ -67,7 +85,7 @@ class Application
                     ->getCallable();
         }
 
-        $response = $callable($request, new Response());
+        $response = $callable($request, $response);
 
         if (!($response instanceof ResponseInterface)) {
             $msg = sprintf(self::CALLABLE_RETURN_INVALID_FORMAT, ResponseInterface::class);
@@ -78,10 +96,17 @@ class Application
     }
 
     /**
+     * @throws RuntimeException
      * @param ResponseInterface $response
      */
     public function sendResponse(ResponseInterface $response)
     {
+        if ($this->sentResponse instanceof ResponseInterface) {
+            throw new \RuntimeException('A response has already been sent, you cannot send another.');
+        }
+
         echo (string) $response->getBody();
+
+        $this->sentResponse = $response;
     }
 }

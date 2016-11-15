@@ -101,7 +101,7 @@ class Application
      */
     public function sendResponse(ResponseInterface $response)
     {
-        if ($this->sentResponse instanceof ResponseInterface) {
+        if (($this->sentResponse instanceof ResponseInterface) || headers_sent()) {
             throw new \RuntimeException('A response has already been sent, you cannot send another.');
         }
 

@@ -1,0 +1,5 @@
+services:
+  whoops.run:
+    class: 'Whoops\Run'
+    calls:
+      - ['pushHandler', ['@maverick.handler.safe_render']]

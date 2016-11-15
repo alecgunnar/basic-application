@@ -3,3 +3,4 @@ services:
     class: 'Whoops\Run'
     calls:
       - ['pushHandler', ['@maverick.handler.safe_render']]
+      - ['pushHandler', ['@maverick.handler.http_exception']]

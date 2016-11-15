@@ -8,14 +8,14 @@ use Maverick\View\ViewInterface;
 class SafeRenderHandler extends Handler
 {
     /**
-     * @var ViewInterface[]
-     */
-    protected $views = [];
-
-    /**
      * @var ViewInterface
      */
     protected $defaultView;
+
+    /**
+     * @var ViewInterface[]
+     */
+    protected $views = [];
 
     /**
      * @param ViewInterface $default

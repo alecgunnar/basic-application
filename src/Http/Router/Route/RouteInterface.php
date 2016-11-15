@@ -24,11 +24,4 @@ interface RouteInterface
      * @return callable
      */
     public function getCallable(): callable;
-
-    /**
-     * Returns the middleware associated with the route
-     *
-     * @return callable[]
-     */
-    public function getMiddleware(): array;
 }

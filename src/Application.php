@@ -50,6 +50,10 @@ class Application
     }
 
     /**
+     * @throws HttpException
+     * @throws NotFoundException
+     * @throws NotAllowedException
+     * @throws UnexpectedValueException
      * @param ServerRequestInterface $request = null
      * @param ResponseInterface $response = null
      * @return ResponseInterface $response
@@ -77,7 +81,7 @@ class Application
 
         if (!($response instanceof ResponseInterface)) {
             $msg = sprintf(self::CALLABLE_RETURN_INVALID_FORMAT, ResponseInterface::class);
-            throw new \Exception($msg);
+            throw new \UnexpectedValueException($msg);
         }
 
         return $response;

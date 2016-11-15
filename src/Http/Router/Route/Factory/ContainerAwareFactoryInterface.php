@@ -12,7 +12,6 @@ interface ContainerAwareFactoryInterface
      * @param string|array $methods
      * @param string $path
      * @param mixed $callable
-     * @param mixed[] $middleware = []
      */
-    public function buildRoute($methods, string $path, $callable, array $middleware = []): RouteInterface;
+    public function buildRoute($methods, string $path, $callable): RouteInterface;
 }

@@ -34,9 +34,8 @@ class YamlLoader implements LoaderInterface
     public function loadRoutes(string $file, CollectionInterface $collection)
     {
         if (!file_exists($file)) {
-            throw new InvalidArgumentException(
-                sprintf(self::FILE_DOES_NOT_EXIST_EXCEPTION, $file)
-            );
+            $msg = sprintf(self::FILE_DOES_NOT_EXIST_EXCEPTION, $file);
+            throw new InvalidArgumentException($msg);
         }
 
         $routes = $this->parseFile($file);
@@ -48,9 +47,8 @@ class YamlLoader implements LoaderInterface
         try {
             return Yaml::parse(file_get_contents($file));
         } catch (ParseException $e) {
-            throw new InvalidArgumentException(
-                sprintf(self::NOT_VALID_YAML_EXCEPTION, $file, $e->getMessage())
-            );
+            $msg = sprintf(self::NOT_VALID_YAML_EXCEPTION, $file, $e->getMessage());
+            throw new InvalidArgumentException($msg);
         }
     }
 

@@ -9,7 +9,7 @@ require_once($root . '/vendor/autoload.php');
  * Load the container
  */
 
-$container = \Maverick\bootstrap($root, true, false);
+$container = \Maverick\bootstrap($root, true, true);
 $container = $container->get('service_container');
 
 /*

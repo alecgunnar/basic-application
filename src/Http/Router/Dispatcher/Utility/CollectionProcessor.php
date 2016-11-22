@@ -22,7 +22,9 @@ class CollectionProcessor
 
     public function __invoke(RouteCollector $router)
     {
-        foreach ($this->collection->all() as $name => $route) {
+        $routes = $this->collection->all();
+        
+        foreach ($routes as $route) {
             $router->addRoute(
                 $route->getMethods(),
                 $route->getPath(),

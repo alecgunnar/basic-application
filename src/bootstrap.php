@@ -11,7 +11,7 @@ use Acclimate\Container\ContainerAcclimator;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-function bootstrap(string $root = null, bool $debug = false, bool $registerErrorHandler = true): ContainerInterface
+function bootstrap(string $root = null, bool $debug = false, bool $build = false): ContainerInterface
 {
     $container = null;
 
@@ -67,21 +67,13 @@ function bootstrap(string $root = null, bool $debug = false, bool $registerError
     }
 
     /**
-     * Acclimate the container to the nifty
-     * ContainerInterface
-     */
-
-    $acclimator = new ContainerAcclimator();
-    $container = $acclimator->acclimate($container);
-
-    /**
      * Register the Whoops error handler
      */
 
-    if ($registerErrorHandler) {
+    if ($build) {
         $container->get('whoops.run')
             ->register();
     }
 
-    return $container;
+    return $container->get('container');
 }

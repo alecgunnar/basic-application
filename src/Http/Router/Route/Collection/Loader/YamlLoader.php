@@ -57,8 +57,7 @@ class YamlLoader implements LoaderInterface
     protected function parseRoutes(
         array $routes,
         CollectionInterface $collection,
-        string $prefix = '',
-        array $stack = []
+        string $prefix = ''
     ) {
         foreach ($routes as $name => $route) {
             if (isset($route['group'])) {
@@ -75,7 +74,7 @@ class YamlLoader implements LoaderInterface
                 $route['name'] = $route['name'] ?? $name;
             }
 
-            $this->parseRoute($route, $collection, $prefix, $stack);
+            $this->parseRoute($route, $collection, $prefix);
         }
     }
 
@@ -85,15 +84,9 @@ class YamlLoader implements LoaderInterface
         string $prefix = ''
     ) {
         $route = $this->processRouteConfig($route);
+        $path = $this->cleanRoutePath($route['path'], $prefix);
 
-        $collection->withRoute(
-            $route['name'],
-            new Route(
-                $route['methods'],
-                $this->cleanRoutePath($route['path'], $prefix),
-                $route['call']
-            )
-        );
+        $collection->withRoute($route['name'], new Route($route['methods'], $path, $route['call']));
     }
 
     protected function processRouteConfig(array $route): array

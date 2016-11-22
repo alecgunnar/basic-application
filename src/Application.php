@@ -8,6 +8,7 @@ use Maverick\Http\Exception\NotAllowedException;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Response;
+use Interop\Container\ContainerInterface;
 
 class Application
 {
@@ -27,6 +28,11 @@ class Application
     protected $response;
 
     /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
      * @var ResponseInterface
      */
     protected $sentResponse;
@@ -42,11 +48,13 @@ class Application
     public function __construct(
         RouterInterface $router,
         ServerRequestInterface $request,
-        ResponseInterface $response
+        ResponseInterface $response,
+        ContainerInterface $container
     ) {
         $this->router = $router;
         $this->request = $request;
         $this->response = $response;
+        $this->container = $container;
     }
 
     /**
@@ -73,11 +81,11 @@ class Application
             case RouterInterface::STATUS_NOT_ALLOWED:
                 throw new NotAllowedException($request);
             case RouterInterface::STATUS_FOUND:
-                $callable = $this->router->getRoute()
-                    ->getCallable();
+                $route = $this->router->getRoute();
         }
 
-        $response = $callable($request, $response);
+        $callable = $this->container->get($route->getService());
+        $response = $callable($request);
 
         if (!($response instanceof ResponseInterface)) {
             $msg = sprintf(self::CALLABLE_RETURN_INVALID_FORMAT, ResponseInterface::class);

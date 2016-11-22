@@ -2,22 +2,22 @@
 
 namespace Maverick\Http\Router\Route\Collection;
 
-use Maverick\Http\Router\Route\RouteInterface;
+use Maverick\Http\Router\Route\Route;
 use RuntimeException;
 
 class Collection implements CollectionInterface
 {
     /**
-     * @var RouteInterface[]
+     * @var Route[]
      */
     protected $routes = [];
 
     /**
      * @var string
      */
-    const INVALID_ROUTE_EXCEPTION = 'A route named "%s" does not exist.';
+    const INVALID_ROUTE_NAME_EXCEPTION = 'A route named "%s" does not exist.';
 
-    public function withRoute(string $name, RouteInterface $route)
+    public function withRoute(string $name, Route $route)
     {
         $this->routes[$name] = $route;
     }
@@ -37,14 +37,14 @@ class Collection implements CollectionInterface
         return count($this->routes);
     }
 
-    public function getRoute(string $name): RouteInterface
+    public function getRoute(string $name): Route
     {
         if (isset($this->routes[$name])) {
             return $this->routes[$name];
         }
 
         throw new RuntimeException(
-            sprintf(self::INVALID_ROUTE_EXCEPTION, $name)
+            sprintf(self::INVALID_ROUTE_NAME_EXCEPTION, $name)
         );
     }
 }

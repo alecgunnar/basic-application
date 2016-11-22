@@ -2,7 +2,7 @@
 
 namespace Maverick\Http\Router\Route\Collection;
 
-use Maverick\Http\Router\Route\RouteInterface;
+use Maverick\Http\Router\Route\Route;
 use Countable;
 
 interface CollectionInterface extends Countable
@@ -11,9 +11,9 @@ interface CollectionInterface extends Countable
      * Adds a new route to the collection
      *
      * @param string $name
-     * @param RouteInterface $route
+     * @param Route $route
      */
-    public function withRoute(string $name, RouteInterface $route);
+    public function withRoute(string $name, Route $route);
 
     /**
      * Adds all of the routes to the collection
@@ -25,7 +25,7 @@ interface CollectionInterface extends Countable
     /**
      * Returns an array of all of the routes
      *
-     * @return RouteInterface[]
+     * @return Route[]
      */
     public function all(): array;
 
@@ -33,7 +33,7 @@ interface CollectionInterface extends Countable
      * Get the route matching the given name
      *
      * @throws Exception
-     * @return RouteInterface
+     * @return Route
      */
-    public function getRoute(string $name): RouteInterface;
+    public function getRoute(string $name): Route;
 }

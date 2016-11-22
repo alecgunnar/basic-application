@@ -1,9 +1,9 @@
 <?php
 
-namespace Maverick\Http\Router\Route\Loader;
+namespace Maverick\Http\Router\Route\Collection\Loader;
 
-use Maverick\Http\Router\Route\Factory\ContainerAwareFactoryInterface;
 use Maverick\Http\Router\Route\Collection\CollectionInterface;
+use Maverick\Http\Router\Route\Route;
 use InvalidArgumentException;
 use Exception;
 use Symfony\Component\Yaml\Yaml;
@@ -11,11 +11,6 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 class YamlLoader implements LoaderInterface
 {
-    /**
-     * @var ContainerAwareFactoryInterface $factory
-     */
-    protected $factory;
-
     /**
      * @var string
      */
@@ -34,12 +29,7 @@ class YamlLoader implements LoaderInterface
     /**
      * @var string
      */
-    const DEFAULT_VIA = 'GET';
-
-    public function __construct(ContainerAwareFactoryInterface $factory)
-    {
-        $this->factory = $factory;
-    }
+    const DEFAULT_METHOD = 'GET';
 
     public function loadRoutes(string $file, CollectionInterface $collection)
     {
@@ -75,8 +65,7 @@ class YamlLoader implements LoaderInterface
                 $this->parseRoutes(
                     $route['group'],
                     $collection,
-                    $this->cleanRoutePath($route['path']),
-                    $route['stack']
+                    $this->cleanRoutePath($route['path'])
                 );
 
                 continue;
@@ -93,32 +82,33 @@ class YamlLoader implements LoaderInterface
     protected function parseRoute(
         array $route,
         CollectionInterface $collection,
-        string $prefix = '',
-        array $stack = []
+        string $prefix = ''
     ) {
-        $route = $this->validateRoute($route);
+        $route = $this->processRouteConfig($route);
 
         $collection->withRoute(
             $route['name'],
-            $this->factory->buildRoute(
-                $route['via'],
+            new Route(
+                $route['methods'],
                 $this->cleanRoutePath($route['path'], $prefix),
-                $route['call'],
-                $this->mergeMiddlewareStacks($stack, $route['stack'])
+                $route['call']
             )
         );
     }
 
-    protected function validateRoute(array $route): array
+    protected function processRouteConfig(array $route): array
     {
         $this->checkForAttribute($route, 'path');
         $this->checkForAttribute($route, 'call');
 
-        $route['via'] = $route['via'] ?? self::DEFAULT_VIA;
-        $route['name'] = $route['name'] ?? md5(
-            $route['path'] . (is_array($route['via']) ? implode('', $route['via']) : $route['via'])
-        );
-        $route['stack'] = $route['stack'] ?? [];
+        $route['method'] = $route['method'] ?? self::DEFAULT_METHOD;
+        $route['methods'] = isset($route['methods']) ? $route['methods'] : [$route['method']];
+
+        if (!is_array($route['methods'])) {
+            throw new Exception('The "methods" attribute for all routes must be an array of valid HTTP methods.');
+        }
+
+        $route['name'] = $route['name'] ?? $this->generateRouteName($route);
 
         return $route;
     }
@@ -126,9 +116,8 @@ class YamlLoader implements LoaderInterface
     protected function checkForAttribute(array $values, string $attr)
     {
         if (!isset($values[$attr])) {
-            throw new Exception(
-                sprintf(self::MISSING_ATTRIBUTE_EXCEPTION, $attr)
-            );
+            $msg = sprintf(self::MISSING_ATTRIBUTE_EXCEPTION, $attr);
+            throw new Exception($msg);
         }
     }
 
@@ -137,10 +126,8 @@ class YamlLoader implements LoaderInterface
         return $prefix . '/' . trim($path, '/');
     }
 
-    protected function mergeMiddlewareStacks(array $first, array $second): array
+    protected function generateRouteName(array $route): string
     {
-        return array_unique(
-            array_merge($first, $second)
-        );
+        return md5($route['path'] . implode('', $route['methods']));
     }
 }

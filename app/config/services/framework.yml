@@ -6,6 +6,7 @@ services:
       - '@maverick.router'
       - '@maverick.http.request'
       - '@maverick.http.response'
+      - '@container'
 
   maverick.http.request:
     class: 'Psr\Http\Message\ServerRequestInterface'
@@ -13,6 +14,16 @@ services:
 
   maverick.http.response:
     class: 'GuzzleHttp\Psr7\Response'
+
+  # Container
+  container:
+    class: 'Interop\Container\ContainerInterface'
+    factory: ['@container.acclimator', 'acclimate']
+    arguments:
+      - '@service_container'
+
+  container.acclimator:
+    class: 'Acclimate\Container\ContainerAcclimator'
 
   # Router
   maverick.router:
@@ -28,18 +39,11 @@ services:
   maverick.router.route.collection.configurator:
     class: 'Maverick\Http\Router\Route\Collection\Configurator\Configurator'
     arguments:
-      - '@maverick.router.route.loader'
+      - '@maverick.router.route.collection.loader'
       - '%router.routes_file%'
 
-  maverick.router.route.factory:
-    class: 'Maverick\Http\Router\Route\Factory\ContainerAwareFactory'
-    arguments:
-      - '@service_container'
-
-  maverick.router.route.loader:
-    class: 'Maverick\Http\Router\Route\Loader\YamlLoader'
-    arguments:
-      - '@maverick.router.route.factory'
+  maverick.router.route.collection.loader:
+    class: 'Maverick\Http\Router\Route\Collection\Loader\YamlLoader'
 
   maverick.router.dispatcher.utility.collection_processor:
     class: 'Maverick\Http\Router\Dispatcher\Utility\CollectionProcessor'

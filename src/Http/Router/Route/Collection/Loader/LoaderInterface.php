@@ -1,6 +1,6 @@
 <?php
 
-namespace Maverick\Http\Router\Route\Loader;
+namespace Maverick\Http\Router\Route\Collection\Loader;
 
 use Maverick\Http\Router\Route\Collection\CollectionInterface;
 use InvalidArgumentException;

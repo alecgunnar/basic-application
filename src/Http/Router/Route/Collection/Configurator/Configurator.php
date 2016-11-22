@@ -2,7 +2,7 @@
 
 namespace Maverick\Http\Router\Route\Collection\Configurator;
 
-use Maverick\Http\Router\Route\Loader\LoaderInterface;
+use Maverick\Http\Router\Route\Collection\Loader\LoaderInterface;
 use Maverick\Http\Router\Route\Collection\CollectionInterface;
 
 class Configurator implements ConfiguratorInterface

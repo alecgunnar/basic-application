@@ -4,7 +4,7 @@ namespace Maverick\Http\Router\Route;
 
 use InvalidArgumentException;
 
-class Route implements RouteInterface
+class Route
 {
     /**
      * @var string[]
@@ -17,24 +17,21 @@ class Route implements RouteInterface
     protected $path;
 
     /**
-     * @var callable
+     * @var string
      */
-    protected $callable;
+    protected $service;
 
     /**
      * @throws InvalidArgumentException
      * @param string[] $methods
      * @param string $path
-     * @param callable $callable
+     * @param string $service
      */
-    public function __construct(
-        array $methods,
-        string $path,
-        callable $callable
-    ) {
+    public function __construct(array $methods, string $path, string $service)
+    {
         $this->methods = $methods;
         $this->path = $path;
-        $this->callable = $callable;
+        $this->service = $service;
     }
 
     public function getMethods(): array
@@ -47,8 +44,8 @@ class Route implements RouteInterface
         return $this->path;
     }
 
-    public function getCallable(): callable
+    public function getService(): string
     {
-        return $this->callable;
+        return $this->service;
     }
 }

@@ -3,7 +3,7 @@
 namespace Maverick\Http\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Maverick\Http\Router\Route\RouteInterface;
+use Maverick\Http\Router\Route\Route;
 
 interface RouterInterface
 {
@@ -34,9 +34,9 @@ interface RouterInterface
     /**
      * Get the most recently matched route
      *
-     * @return RouteInterface
+     * @return Route
      */
-    public function getRoute(): RouteInterface;
+    public function getRoute(): Route;
 
     /**
      * Get the methods allowed by the matched route

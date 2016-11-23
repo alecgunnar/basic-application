@@ -1,6 +1,6 @@
 services:
   # Application
-  maverick.application:
+  application:
     class: 'Maverick\Application'
     arguments:
       - '@maverick.router'
@@ -8,25 +8,22 @@ services:
       - '@maverick.http.response'
       - '@container'
 
-  maverick.http.request:
+  server_request:
     class: 'Psr\Http\Message\ServerRequestInterface'
     factory: ['GuzzleHttp\Psr7\ServerRequest', 'fromGlobals']
-
-  maverick.http.response:
-    class: 'GuzzleHttp\Psr7\Response'
 
   # Container
   container:
     class: 'Interop\Container\ContainerInterface'
-    factory: ['@container.acclimator', 'acclimate']
+    factory: ['@acclimate.container.container_acclimator', 'acclimate']
     arguments:
       - '@service_container'
 
-  container.acclimator:
+  acclimate.container.container_acclimator:
     class: 'Acclimate\Container\ContainerAcclimator'
 
   # Router
-  maverick.router:
+  router:
     class: 'Maverick\Http\Router\FastRouteRouter'
     arguments:
       - '@fast_route.dispatcher'
@@ -49,6 +46,13 @@ services:
     class: 'Maverick\Http\Router\Dispatcher\Utility\CollectionProcessor'
     arguments:
       - '@maverick.router.route.collection'
+
+  # Controllers
+
+  controller.welcome:
+    class: Maverick\Controller\RenderableController
+    arguments:
+      - '@maverick.view.welcome'
 
   # Views
   maverick.view.welcome:

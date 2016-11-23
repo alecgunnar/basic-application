@@ -1,5 +1,0 @@
-services:
-  controller.welcome:
-    class: Maverick\Controller\RenderableController
-    arguments:
-      - '@maverick.view.welcome'

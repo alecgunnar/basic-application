@@ -7,35 +7,14 @@ use Maverick\Http\Exception\NotFoundException;
 use Maverick\Http\Exception\NotAllowedException;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\Psr7\Response;
 use Interop\Container\ContainerInterface;
 
 class Application
 {
     /**
-     * @var RouterInterface
-     */
-    protected $router;
-
-    /**
-     * @var ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var ResponseInterface
-     */
-    protected $response;
-
-    /**
      * @var ContainerInterface
      */
     protected $container;
-
-    /**
-     * @var ResponseInterface
-     */
-    protected $sentResponse;
 
     /**
      * @var string
@@ -43,37 +22,28 @@ class Application
     const CALLABLE_RETURN_INVALID_FORMAT = 'Route callable did not return an instance of %s.';
 
     /**
-     * @param RouterInterface $router
+     * @param ContainerInterface $container
      */
-    public function __construct(
-        RouterInterface $router,
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        ContainerInterface $container
-    ) {
-        $this->router = $router;
-        $this->request = $request;
-        $this->response = $response;
+    public function __construct(ContainerInterface $container)
+    {
         $this->container = $container;
     }
 
     /**
+     * @param ServerRequestInterface $request = null
+     *
      * @throws HttpException
      * @throws NotFoundException
      * @throws NotAllowedException
      * @throws UnexpectedValueException
-     * @param ServerRequestInterface $request = null
-     * @param ResponseInterface $response = null
+     *
      * @return ResponseInterface $response
      */
-    public function handleRequest(
-        ServerRequestInterface $request = null,
-        ResponseInterface $response = null
-    ): ResponseInterface {
-        $request = $request ?? $this->request;
-        $response = $response ?? $this->response;
-
-        $status = $this->router->processRequest($request);
+    public function handleRequest(ServerRequestInterface $request = null): ResponseInterface
+    {
+        $request = $request ?? $this->container->get('server_request');
+        $router = $this->container->get('router');
+        $status = $router->processRequest($request);
 
         switch ($status) {
             case RouterInterface::STATUS_NOT_FOUND:
@@ -96,17 +66,15 @@ class Application
     }
 
     /**
-     * @throws RuntimeException
      * @param ResponseInterface $response
+     * @throws RuntimeException
      */
     public function sendResponse(ResponseInterface $response)
     {
-        if (($this->sentResponse instanceof ResponseInterface) || headers_sent()) {
+        if (headers_sent()) {
             throw new \RuntimeException('A response has already been sent, you cannot send another.');
         }
 
         echo (string) $response->getBody();
-
-        $this->sentResponse = $response;
     }
 }

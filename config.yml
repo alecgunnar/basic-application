@@ -9,5 +9,6 @@ parameters:
   container_cache_file: '%cache_dir%/container.php'
 
 imports:
+  - resource: 'config/routes.yml'
   - resource: 'config/services.yml'
   - resource: 'config/environment.yml'

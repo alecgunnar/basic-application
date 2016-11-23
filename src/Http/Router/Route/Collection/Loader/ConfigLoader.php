@@ -9,13 +9,8 @@ use Exception;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
-class YamlLoader implements LoaderInterface
+class ConfigLoader implements LoaderInterface
 {
-    /**
-     * @var string
-     */
-    const FILE_DOES_NOT_EXIST_EXCEPTION = 'The route configuration file "%s" does not exist.';
-
     /**
      * @var string
      */

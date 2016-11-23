@@ -1,7 +1,0 @@
-parameters:
-  router.routes_file: '%config_dir%/routes.yml'
-  router.cache_file: '%cache_dir%/routes.php'
-
-imports:
-  - resource: 'services.yml'
-  - resource: 'environment.yml'

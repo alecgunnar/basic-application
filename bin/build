@@ -14,7 +14,7 @@ fi
 echo -n "Building for $ENV..."
 
 # Move the environment config into place
-cp -f "app/config/environment/$ENV.yml" "app/config/environment.yml"
+cp -f "config/environment/$ENV.yml" "config/environment.yml"
 
 # Create a cache directory
 rm -rf $CACHE_DIR

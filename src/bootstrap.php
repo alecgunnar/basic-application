@@ -10,42 +10,24 @@ use Interop\Container\ContainerInterface;
 use Acclimate\Container\ContainerAcclimator;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use CachedContainer;
 
+/**
+ * @param string $root = null
+ * @param bool $debug = false
+ */
 function bootstrap(string $root = null, bool $debug = false): ContainerInterface
 {
     $container = null;
 
-    /*
-     * Define some known directories
-     */
-
-    define('ROOT_DIR', $root ?? __DIR__);
-    define('APP_DIR', $root . '/app');
-    define('CONFIG_DIR', APP_DIR . '/config');
-    define('CACHE_DIR', ROOT_DIR . '/cache');
-
-    /*
-     * Define some known files
-     */
-
-    define('PRIMARY_CONFIG_FILE', CONFIG_DIR . '/config.yml');
-    define('CONTAINER_CACHE_FILE', CACHE_DIR . '/container.php');
-
-    /*
-     * Class for the cached container
-     */
-
-    define('CONTAINER_CACHE_CLASS', 'CachedContainer');
+    $root = $root ?? __DIR__;
 
     /*
      * Try to load the container from the cache
      */
 
-    if (!$debug && file_exists(CONTAINER_CACHE_FILE)) {
-        require_once(CONTAINER_CACHE_FILE);
-
-        $class = CONTAINER_CACHE_CLASS;
-        $container = new $class();
+    if (!$debug && class_exists(CachedContainer::class)) {
+        $container = new CachedContainer();
     }
 
     /*
@@ -55,15 +37,11 @@ function bootstrap(string $root = null, bool $debug = false): ContainerInterface
 
     if (!($container instanceof Container)) {
         $container = new ContainerBuilder();
-        $container->setParameter('app_dir', APP_DIR);
-        $container->setParameter('root_dir', ROOT_DIR);
-        $container->setParameter('config_dir', CONFIG_DIR);
-        $container->setParameter('cache_dir', CACHE_DIR);
-
+        $container->setParameter('root_dir', $root);
         $container->setParameter('is_debug', $debug);
 
-        $loader = new YamlFileLoader($container, new FileLocator(CONFIG_DIR));
-        $loader->load(PRIMARY_CONFIG_FILE);
+        $loader = new YamlFileLoader($container, new FileLocator($root));
+        $loader->load('config.yml');
     }
 
     /**

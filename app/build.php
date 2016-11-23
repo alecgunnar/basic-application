@@ -20,10 +20,10 @@ $container->compile();
 
 $dumper = new PhpDumper($container);
 $cached = $dumper->dump([
-    'class' => CONTAINER_CACHE_CLASS
+    'class' => 'CachedContainer'
 ]);
 
-file_put_contents(CONTAINER_CACHE_FILE, $cached);
+file_put_contents($container->getParameter('container_cache_file'), $cached);
 
 /*
  * Cache the router

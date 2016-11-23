@@ -48,7 +48,7 @@ services:
     class: 'Maverick\Http\Router\Route\Collection\Configurator\Configurator'
     arguments:
       - '@maverick.router.route.collection.loader'
-      - '%router.routes_file%'
+      - '%routes_config_file%'
 
   maverick.router.route.collection.loader:
     class: 'Maverick\Http\Router\Route\Collection\Loader\YamlLoader'
@@ -120,7 +120,7 @@ services:
     factory: 'FastRoute\cachedDispatcher'
     arguments:
       - '@maverick.router.dispatcher.utility.collection_processor'
-      - {cacheFile: '%router.cache_file%'}
+      - {cacheFile: '%routes_cache_file%'}
 
   fast_route.dispatcher:
     alias: 'fast_route.cached_dispatcher'

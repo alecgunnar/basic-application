@@ -44,12 +44,5 @@ function bootstrap(string $root = null, bool $debug = false): ContainerInterface
         $loader->load('config.yml');
     }
 
-    /**
-     * Register the Whoops error handler
-     */
-
-    $container->get('whoops.run')
-        ->register();
-
     return $container->get('container');
 }

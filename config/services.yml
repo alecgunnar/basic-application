@@ -48,10 +48,11 @@ services:
     class: 'Maverick\Http\Router\Route\Collection\Configurator\Configurator'
     arguments:
       - '@maverick.router.route.collection.loader'
-      - '%routes_config_file%'
 
   maverick.router.route.collection.loader:
-    class: 'Maverick\Http\Router\Route\Collection\Loader\YamlLoader'
+    class: 'Maverick\Http\Router\Route\Collection\Loader\ConfigLoader'
+    arguments:
+      - '%routes%'
 
   maverick.router.dispatcher.utility.collection_processor:
     class: 'Maverick\Http\Router\Dispatcher\Utility\CollectionProcessor'

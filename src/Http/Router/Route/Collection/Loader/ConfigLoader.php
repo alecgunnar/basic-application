@@ -4,17 +4,14 @@ namespace Maverick\Http\Router\Route\Collection\Loader;
 
 use Maverick\Http\Router\Route\Collection\CollectionInterface;
 use Maverick\Http\Router\Route\Route;
-use InvalidArgumentException;
 use Exception;
-use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Yaml\Exception\ParseException;
 
 class ConfigLoader implements LoaderInterface
 {
     /**
-     * @var string
+     * @var array
      */
-    const NOT_VALID_YAML_EXCEPTION = 'The route configuration file "%s" does not contain valid YAML. The error was: %s';
+    protected $routes;
 
     /**
      * @var string
@@ -26,25 +23,14 @@ class ConfigLoader implements LoaderInterface
      */
     const DEFAULT_METHOD = 'GET';
 
-    public function loadRoutes(string $file, CollectionInterface $collection)
+    public function __construct(array $routes)
     {
-        if (!file_exists($file)) {
-            $msg = sprintf(self::FILE_DOES_NOT_EXIST_EXCEPTION, $file);
-            throw new InvalidArgumentException($msg);
-        }
-
-        $routes = $this->parseFile($file);
-        $this->parseRoutes($routes, $collection);
+        $this->routes = $routes;
     }
 
-    protected function parseFile(string $file)
+    public function loadRoutes(CollectionInterface $collection)
     {
-        try {
-            return Yaml::parse(file_get_contents($file));
-        } catch (ParseException $e) {
-            $msg = sprintf(self::NOT_VALID_YAML_EXCEPTION, $file, $e->getMessage());
-            throw new InvalidArgumentException($msg);
-        }
+        $this->parseRoutes($this->routes, $collection);
     }
 
     protected function parseRoutes(

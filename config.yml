@@ -3,9 +3,7 @@ parameters:
   config_dir: '%root_dir%/config'
   cache_dir: '%root_dir%/cache'
 
-  routes_config_file: '%config_dir%/routes.yml'
   routes_cache_file: '%cache_dir%/routes.php'
-
   container_cache_file: '%cache_dir%/container.php'
 
 imports:

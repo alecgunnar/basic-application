@@ -13,22 +13,15 @@ class Configurator implements ConfiguratorInterface
     protected $loader;
 
     /**
-     * @var string
-     */
-    protected $file;
-
-    /**
      * @param LoaderInterface $loader
-     * @param string $file
      */
-    public function __construct(LoaderInterface $loader, string $file)
+    public function __construct(LoaderInterface $loader)
     {
         $this->loader = $loader;
-        $this->file = $file;
     }
 
     public function configure(CollectionInterface $collection)
     {
-        $this->loader->loadRoutes($this->file, $collection);
+        $this->loader->loadRoutes($collection);
     }
 }

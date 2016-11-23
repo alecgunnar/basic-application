@@ -19,7 +19,7 @@ class Application
     /**
      * @var string
      */
-    const CALLABLE_RETURN_INVALID_FORMAT = 'Route callable did not return an instance of %s.';
+    const CALLABLE_RETURN_INVALID_FORMAT = 'Route action did not return an instance of %s.';
 
     /**
      * @param ContainerInterface $container
@@ -27,7 +27,6 @@ class Application
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-
 
         $this->container->get('whoops.run')
             ->register();

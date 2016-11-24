@@ -1,0 +1,19 @@
+imports:
+
+  ##################################################
+  # Load framework config
+  ##################################################
+
+  - resource: '../vendor/alecgunnar/maverick/config/maverick.yml'
+
+  ##################################################
+  # Load the routes
+  ##################################################
+
+  - resource: 'routes.yml'
+
+  ##################################################
+  # Load environment specific config
+  ##################################################
+
+  - resource: 'environment.yml'

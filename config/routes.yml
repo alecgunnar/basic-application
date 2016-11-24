@@ -1,5 +1,5 @@
-parameters:
-  routes:
-    welcome:
-      path: '/'
-      call: 'controller.welcome'
+# parameters:
+#   routes:
+#     welcome:
+#       path: '/'
+#       call: 'welcome_controller'

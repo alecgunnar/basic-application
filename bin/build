@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ENV_DIR="app/config/environment"
+ENV_DIR="config/environment"
 CACHE_DIR="cache"
 ENV="prod"
 

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+service php7.0-fpm start > /dev/null
+service nginx start > /dev/null
+
+bash

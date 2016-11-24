@@ -4,7 +4,7 @@ namespace Maverick\Http\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Maverick\Http\Router\Route\Collection\CollectionInterface;
-use Maverick\Http\Router\Route\RouteInterface;
+use Maverick\Http\Router\Route\Route;
 use FastRoute\Dispatcher;
 
 class FastRouteRouter implements RouterInterface
@@ -20,7 +20,7 @@ class FastRouteRouter implements RouterInterface
     protected $collection;
 
     /**
-     * @var RouteInterface
+     * @var Route
      */
     protected $route;
 
@@ -64,7 +64,7 @@ class FastRouteRouter implements RouterInterface
         }
     }
 
-    public function getRoute(): RouteInterface
+    public function getRoute(): Route
     {
         return $this->route;
     }

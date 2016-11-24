@@ -24,11 +24,11 @@ class CollectionProcessor
     {
         $routes = $this->collection->all();
         
-        foreach ($routes as $route) {
+        foreach ($routes as $name => $route) {
             $router->addRoute(
                 $route->getMethods(),
                 $route->getPath(),
-                $route->getService()
+                $name
             );
         }
     }

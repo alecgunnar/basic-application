@@ -19,7 +19,7 @@ class Application
     /**
      * @var string
      */
-    const CALLABLE_RETURN_INVALID_FORMAT = 'Route action did not return an instance of %s.';
+    const RESPONSE_NOT_RETURNED_MESSAGE = 'Route action did not return an instance of %s.';
 
     /**
      * @param ContainerInterface $container
@@ -34,12 +34,10 @@ class Application
 
     /**
      * @param ServerRequestInterface $request = null
-     *
      * @throws HttpException
      * @throws NotFoundException
      * @throws NotAllowedException
      * @throws UnexpectedValueException
-     *
      * @return ResponseInterface $response
      */
     public function handleRequest(ServerRequestInterface $request = null): ResponseInterface
@@ -54,14 +52,14 @@ class Application
             case RouterInterface::STATUS_NOT_ALLOWED:
                 throw new NotAllowedException($request);
             case RouterInterface::STATUS_FOUND:
-                $route = $this->router->getRoute();
+                $route = $router->getRoute();
         }
 
         $callable = $this->container->get($route->getService());
         $response = $callable($request);
 
         if (!($response instanceof ResponseInterface)) {
-            $msg = sprintf(self::CALLABLE_RETURN_INVALID_FORMAT, ResponseInterface::class);
+            $msg = sprintf(self::RESPONSE_NOT_RETURNED_MESSAGE, ResponseInterface::class);
             throw new \UnexpectedValueException($msg);
         }
 

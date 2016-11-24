@@ -10,5 +10,10 @@
     ],
     "require": {
         "alecgunnar/maverick": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cached\\": "cache/"
+        }
     }
 }

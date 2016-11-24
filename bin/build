@@ -16,6 +16,9 @@ echo -n "Building for $ENV..."
 # Move the environment config into place
 cp -f "config/environment/$ENV.yml" "config/environment.yml"
 
+# Move the index into place
+cp -f "app/$ENV.php" "public/index.php"
+
 # Create a cache directory
 rm -rf $CACHE_DIR
 mkdir -p $CACHE_DIR

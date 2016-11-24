@@ -9,7 +9,7 @@ server {
     location @app {
         fastcgi_pass    unix:/var/run/php/php7.0-fpm.sock;
         include         fastcgi_params;
-        fastcgi_param   SCRIPT_FILENAME    /www/app/dev.php;
+        fastcgi_param   SCRIPT_FILENAME    index.php;
         fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;
     }
 }

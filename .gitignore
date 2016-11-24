@@ -7,4 +7,5 @@ log/
 phpunit.xml
 composer.lock
 *.log
-app/config/environment.yml
+config/environment.yml
+public/index.php
